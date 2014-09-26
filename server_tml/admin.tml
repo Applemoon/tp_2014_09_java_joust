@@ -3,8 +3,8 @@
 	<title>Admin page</title>
 </head>
 <body>
-<p>Server administration page</p>
-<p>Registered users: ${amountOfRegisteredUsers}</p>
-<p>Users are online: ${amountOfUsersOnline}</p>
+	<p>Server administration page</p>
+	<p>Registered users: ${amountOfRegisteredUsers}</p>
+	<p>Users are online: ${amountOfUsersOnline}</p>
 </body>
 </html>

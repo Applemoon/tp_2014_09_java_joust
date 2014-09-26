@@ -27,23 +27,25 @@ public class UserProfileServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        String sessionId = request.getSession().getId();
+        final String sessionId = request.getSession().getId();
 
-        if (!accountService.isLoggedIn(sessionId)) {
-            response.sendRedirect(SignInServlet.signInPageURL);
-        } else {
-            String exit = request.getParameter("exit");
+        if (accountService.isLoggedIn(sessionId)) {
+            final String exit = request.getParameter("exit");
             if (exit != null) {
                 accountService.logOut(sessionId);
                 response.sendRedirect(SignInServlet.signInPageURL);
-            } else {
-                response.setStatus(HttpServletResponse.SC_OK);
-                UserProfile user = accountService.getUserProfile(sessionId);
-                Map<String, Object> pageVariables = new HashMap<>();
-                pageVariables.put("login", user.getLogin());
-                pageVariables.put("email", user.getEmail());
-                response.getWriter().println(PageGenerator.getPage("profile.tml", pageVariables));
-            }
-        }
+                return;
+            } 
+            
+            response.setStatus(HttpServletResponse.SC_OK);
+            UserProfile user = accountService.getUserProfile(sessionId);
+            Map<String, Object> pageVariables = new HashMap<>();
+            pageVariables.put("login", user.getLogin());
+            pageVariables.put("email", user.getEmail());
+            response.getWriter().println(PageGenerator.getPage("profile.tml", pageVariables));
+            return;
+        } 
+        
+        response.sendRedirect(SignInServlet.signInPageURL);
     }
 }

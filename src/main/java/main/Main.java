@@ -24,7 +24,7 @@ public class Main {
             System.exit(1);
         }
 
-        String portString = args[0];
+        final String portString = args[0];
         int port = Integer.valueOf(portString);
 
         System.out.append("Starting at port: ").append(String.valueOf(port)).append('\n');

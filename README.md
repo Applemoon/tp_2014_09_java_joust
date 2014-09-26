@@ -7,11 +7,11 @@
 ##Студенты
 Уваров Алексанр Олегович, Applemoon, sanyauvarov@mail.ru
 
-Карбовский Сергей ???, kser93, ???
+Карбовский Сергей Витальевич, kser93, kserx05@rambler.ru
 
 Халайджи Алексей Константинович, leshiy1295, aleksei_halaidzh@mail.ru
 
-Диденко Яков ???, kogotto, ???
+Диденко Яков ???, kogotto, kogotto@gmail.com
 
 Подробное о проекте можно прочесть на сайте [Технопарка] [1]
 [1]: tp.mail.ru

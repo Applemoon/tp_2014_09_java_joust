@@ -36,7 +36,7 @@ public class SignUpServlet extends HttpServlet  {
         pageVariables.put("password", "");
         pageVariables.put("email", "");
 
-        String sessionId = request.getSession().getId();
+        final String sessionId = request.getSession().getId();
         if (accountService.isLoggedIn(sessionId))
             pageVariables.put("answerFromServer", "Hello, " + accountService.getUserProfile(sessionId).getLogin() + "!");
         else
@@ -47,9 +47,9 @@ public class SignUpServlet extends HttpServlet  {
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
+        final String login = request.getParameter("login");
+        final String password = request.getParameter("password");
+        final String email = request.getParameter("email");
 
         response.setStatus(HttpServletResponse.SC_OK);
 
@@ -59,15 +59,17 @@ public class SignUpServlet extends HttpServlet  {
 
         boolean success = false;
 
-        if (login == "" || password == "" || email == "") {
-            pageVariables.put("answerFromServer", "Not all fields are filled!");
-        } else {
+        if (login.isEmpty() || password.isEmpty() || email.isEmpty()) {
+            pageVariables.put("answerFromServer", "All fields are required!");
+        } 
+        else {
             UserProfile user = new UserProfile(login, password, email);
 
             if (accountService.signUp(user)) {
                 pageVariables.put("answerFromServer", "Greetings, " + login + ". You were successfully registered!");
                 success = true;
-            } else {
+            }
+            else {
                 pageVariables.put("answerFromServer", "Player with login " + login + " is already registered!");
             }
 
@@ -77,7 +79,8 @@ public class SignUpServlet extends HttpServlet  {
             pageVariables.put("login", login);
             pageVariables.put("password", password);
             pageVariables.put("email", email);
-        } else {
+        } 
+        else {
             pageVariables.put("login", "");
             pageVariables.put("password", "");
             pageVariables.put("email", "");

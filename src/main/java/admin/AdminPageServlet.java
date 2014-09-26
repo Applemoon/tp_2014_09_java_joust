@@ -28,10 +28,9 @@ public class AdminPageServlet extends HttpServlet {
         response.setContentType("text/html; charset = utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
         Map<String, Object> pageVariables = new HashMap<>();
-        String timeString;
-        timeString = request.getParameter("shutdown");
+        final String timeString = request.getParameter("shutdown");
         if (timeString != null) {
-            int timeMS = Integer.valueOf(timeString);
+            final int timeMS = Integer.valueOf(timeString);
             System.out.print("Server will be down after: " + timeMS + " ms");
             TimeHelper.sleep(timeMS);
             System.out.print("\nShutdown");

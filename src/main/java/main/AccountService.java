@@ -22,16 +22,14 @@ public class AccountService {
     public boolean signIn(String sessionId, String login, String password) {
         boolean result = false;
 
-        if (users.containsKey(login)) {
-            if (users.get(login).getPass().equals(password)) {
-                result = true;
-                if (userSessions.containsKey(login)) {
-                    sessions.remove(userSessions.get(login));
-                    userSessions.remove(login);
-                }
-                sessions.put(sessionId, login);
-                userSessions.put(login, sessionId);
+        if (users.containsKey(login) && users.get(login).getPass().equals(password)) {
+            result = true;
+            if (userSessions.containsKey(login)) {
+                sessions.remove(userSessions.get(login));
+                userSessions.remove(login);
             }
+            sessions.put(sessionId, login);
+            userSessions.put(login, sessionId);
         }
         return result;
     }

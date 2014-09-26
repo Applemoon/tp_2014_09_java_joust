@@ -28,43 +28,45 @@ public class SignInServlet extends HttpServlet {
                       HttpServletResponse response)
             throws ServletException, IOException {
 
-        String sessionId = request.getSession().getId();
+        final String sessionId = request.getSession().getId();
         if (accountService.isLoggedIn(sessionId)) {
             response.sendRedirect(UserProfileServlet.UserProfilePageURL);
-        } else {
-            response.setStatus(HttpServletResponse.SC_OK);
-            Map<String, Object> pageVariables = new HashMap<>();
-            pageVariables.put("url", signInPageURL);
-            pageVariables.put("answerFromServer", "");
-            pageVariables.put("login", "");
-            response.getWriter().println(PageGenerator.getPage("signIn.tml", pageVariables));
+            return;
         }
+
+        response.setStatus(HttpServletResponse.SC_OK);
+        Map<String, Object> pageVariables = getPageVariables("", "");
+        response.getWriter().println(PageGenerator.getPage("signIn.tml", pageVariables));
     }
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
+        final String login = request.getParameter("login");
+        final String password = request.getParameter("password");
 
-        if (login == "" || password == "") {
-            response.setStatus(HttpServletResponse.SC_OK);
-            Map<String, Object> pageVariables = new HashMap<>();
-            pageVariables.put("url", signInPageURL);
-            pageVariables.put("answerFromServer", "Not all fields are filled!");
-            pageVariables.put("login", login);
-            response.getWriter().println(PageGenerator.getPage("signIn.tml", pageVariables));
-        } else {
-            String sessionId = request.getSession().getId();
+        if (!login.isEmpty() && !password.isEmpty()) {
+            final String sessionId = request.getSession().getId();
             if (accountService.signIn(sessionId, login, password)) {
                 response.sendRedirect(UserProfileServlet.UserProfilePageURL);
-            } else {
-                response.setStatus(HttpServletResponse.SC_OK);
-                Map<String, Object> pageVariables = new HashMap<>();
-                pageVariables.put("url", signInPageURL);
-                pageVariables.put("answerFromServer", "Player with that combination of login and password was not found!");
-                pageVariables.put("login", login);
-                response.getWriter().println(PageGenerator.getPage("signIn.tml", pageVariables));
+                return;
             }
+            
+            response.setStatus(HttpServletResponse.SC_OK);
+            Map<String, Object> pageVariables = getPageVariables("Wrong login or password!", login);
+            response.getWriter().println(PageGenerator.getPage("signIn.tml", pageVariables));
+            return;
         }
+        
+        response.setStatus(HttpServletResponse.SC_OK);
+        Map<String, Object> pageVariables = getPageVariables("All fields are required!", login);
+        response.getWriter().println(PageGenerator.getPage("signIn.tml", pageVariables));        
+    }
+
+    private Map<String, Object> getPageVariables(String answer, String login) {
+        Map<String, Object> pageVariables = new HashMap<>();
+        pageVariables.put("url", signInPageURL);
+        pageVariables.put("answerFromServer", answer);
+        pageVariables.put("login", login);
+        return pageVariables;
     }
 }
