@@ -17,17 +17,16 @@ import java.util.Map;
  */
 public class SignInServlet extends HttpServlet {
     public static final String signInPageURL = "/api/v1/auth/signin";
-
     private AccountService accountService;
+
 
     public SignInServlet(AccountService accountService) {
         this.accountService = accountService;
     }
 
-    public void doGet(HttpServletRequest request,
-                      HttpServletResponse response)
-            throws ServletException, IOException {
 
+    public void doGet(HttpServletRequest request,
+                      HttpServletResponse response) throws ServletException, IOException {
         final String sessionId = request.getSession().getId();
         if (accountService.isLoggedIn(sessionId)) {
             response.sendRedirect(UserProfileServlet.UserProfilePageURL);
@@ -38,6 +37,7 @@ public class SignInServlet extends HttpServlet {
         Map<String, Object> pageVariables = getPageVariables("", "");
         response.getWriter().println(PageGenerator.getPage("signIn.tml", pageVariables));
     }
+
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
@@ -61,6 +61,7 @@ public class SignInServlet extends HttpServlet {
         Map<String, Object> pageVariables = getPageVariables("All fields are required!", login);
         response.getWriter().println(PageGenerator.getPage("signIn.tml", pageVariables));        
     }
+
 
     private Map<String, Object> getPageVariables(String answer, String login) {
         Map<String, Object> pageVariables = new HashMap<>();

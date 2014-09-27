@@ -16,36 +16,36 @@ import java.util.Map;
  * Created by alexey on 26.09.14.
  */
 public class UserProfileServlet extends HttpServlet {
-
     public static final String UserProfilePageURL = "/profile";
-
     private AccountService accountService;
+
 
     public UserProfileServlet(AccountService accountService) {
         this.accountService = accountService;
     }
 
+
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         final String sessionId = request.getSession().getId();
 
-        if (accountService.isLoggedIn(sessionId)) {
-            final String exit = request.getParameter("exit");
-            if (exit != null) {
-                accountService.logOut(sessionId);
-                response.sendRedirect(SignInServlet.signInPageURL);
-                return;
-            } 
-            
-            response.setStatus(HttpServletResponse.SC_OK);
-            UserProfile user = accountService.getUserProfile(sessionId);
-            Map<String, Object> pageVariables = new HashMap<>();
-            pageVariables.put("login", user.getLogin());
-            pageVariables.put("email", user.getEmail());
-            response.getWriter().println(PageGenerator.getPage("profile.tml", pageVariables));
+        if (!accountService.isLoggedIn(sessionId)) {
+            response.sendRedirect(SignInServlet.signInPageURL);
+            return;
+        }
+        
+        final String exit = request.getParameter("exit");
+        if (exit != null) {
+            accountService.logOut(sessionId);
+            response.sendRedirect(SignInServlet.signInPageURL);
             return;
         } 
         
-        response.sendRedirect(SignInServlet.signInPageURL);
-    }
+        response.setStatus(HttpServletResponse.SC_OK);
+        UserProfile user = accountService.getUserProfile(sessionId);
+        Map<String, Object> pageVariables = new HashMap<>();
+        pageVariables.put("login", user.getLogin());
+        pageVariables.put("email", user.getEmail());
+        response.getWriter().println(PageGenerator.getPage("profile.tml", pageVariables));
+    } 
 }

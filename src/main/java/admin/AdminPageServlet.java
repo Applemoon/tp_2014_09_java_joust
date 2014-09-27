@@ -1,6 +1,7 @@
 package admin;
 
 import main.AccountService;
+import frontend.UserProfileServlet;
 import templater.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -16,15 +17,23 @@ import java.util.Map;
  */
 public class AdminPageServlet extends HttpServlet {
     public static final String adminPageURL = "/admin";
-
     private AccountService accountService;
+
 
     public AdminPageServlet(AccountService accountService) {
         this.accountService = accountService;
     }
+    
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
+        final String login = request.getParameter("login");
+        if (login == null || !login.equals("admin"))
+        {
+            response.sendRedirect(UserProfileServlet.UserProfilePageURL);
+            return;
+        }
+
         response.setContentType("text/html; charset = utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
         Map<String, Object> pageVariables = new HashMap<>();

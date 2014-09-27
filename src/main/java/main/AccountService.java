@@ -7,32 +7,31 @@ import java.util.Map;
  * Created by alexey on 13.09.14.
  */
 public class AccountService {
-
     private Map<String, UserProfile> users = new HashMap<>();
     private Map<String, String> sessions = new HashMap<>();
     private Map<String, String> userSessions = new HashMap<>();
 
-    private AccountService accountService;
 
     public AccountService() {
         users.put("admin", new UserProfile("admin", "admin", "admin"));
         users.put("test", new UserProfile("test", "test", "test"));
     }
 
-    public boolean signIn(String sessionId, String login, String password) {
-        boolean result = false;
 
-        if (users.containsKey(login) && users.get(login).getPass().equals(password)) {
-            result = true;
-            if (userSessions.containsKey(login)) {
-                sessions.remove(userSessions.get(login));
-                userSessions.remove(login);
-            }
-            sessions.put(sessionId, login);
-            userSessions.put(login, sessionId);
+    public boolean signIn(String sessionId, String login, String password) {
+        if (!users.containsKey(login) || !users.get(login).getPass().equals(password)) {
+            return false;
         }
-        return result;
+        
+        if (userSessions.containsKey(login)) {
+            sessions.remove(userSessions.get(login));
+            userSessions.remove(login);
+        }
+        sessions.put(sessionId, login);
+        userSessions.put(login, sessionId);
+        return true;
     }
+
 
     public boolean signUp(UserProfile user) {
         if (users.containsKey(user.getLogin()))
@@ -41,14 +40,20 @@ public class AccountService {
         return true;
     }
 
+
     public void logOut(String sessionId) {
         if (isLoggedIn(sessionId))
+        {
+            userSessions.remove(sessions.get(sessionId));
             sessions.remove(sessionId);
+        }
     }
+
 
     public boolean isLoggedIn(String sessionId) {
         return sessions.containsKey(sessionId);
     }
+
 
     public UserProfile getUserProfile(String sessionId) {
         if (isLoggedIn(sessionId))
@@ -56,9 +61,11 @@ public class AccountService {
         return null;
     }
 
+
     public int getAmountOfRegisteredUsers() {
         return users.size();
     }
+
 
     public int getAmountOfUsersOnline() {
         return sessions.size();

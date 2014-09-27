@@ -17,6 +17,7 @@ public class PageGenerator {
     private static final String HTML_DIR = "server_tml";
     private static final Configuration CFG = new Configuration();
 
+
     public static String getPage(String filename, Map<String, Object> data) {
         Writer stream = new StringWriter();
         try {

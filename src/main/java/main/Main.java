@@ -18,7 +18,6 @@ import javax.servlet.Servlet;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-
         if (args.length != 1) {
             System.out.println("Use port as the first argument");
             System.exit(1);
