@@ -15,7 +15,7 @@ import java.util.Map;
  * @author alexey
  */
 public class SignInServlet extends HttpServlet {
-    public static final String signInPageURL = "/login";
+    public static final String signInPageURL = "/api/v1/auth/signin";
 
     private AccountService accountService;
 
