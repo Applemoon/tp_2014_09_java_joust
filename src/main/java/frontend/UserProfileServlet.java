@@ -16,14 +16,14 @@ import java.util.Map;
  * Created by alexey on 26.09.14.
  */
 public class UserProfileServlet extends HttpServlet {
-    public static final String UserProfilePageURL = "/profile";
-    private AccountService accountService;
 
+    public static final String userProfilePageURL = "/profile";
+
+    private AccountService accountService;
 
     public UserProfileServlet(AccountService accountService) {
         this.accountService = accountService;
     }
-
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
@@ -33,19 +33,18 @@ public class UserProfileServlet extends HttpServlet {
             response.sendRedirect(SignInServlet.signInPageURL);
             return;
         }
-        
         final String exit = request.getParameter("exit");
         if (exit != null) {
             accountService.logOut(sessionId);
             response.sendRedirect(SignInServlet.signInPageURL);
             return;
-        } 
-        
+        }
+
         response.setStatus(HttpServletResponse.SC_OK);
         UserProfile user = accountService.getUserProfile(sessionId);
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("login", user.getLogin());
         pageVariables.put("email", user.getEmail());
         response.getWriter().println(PageGenerator.getPage("profile.tml", pageVariables));
-    } 
+    }
 }

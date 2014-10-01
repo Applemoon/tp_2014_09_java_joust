@@ -1,7 +1,6 @@
 package frontend;
 
 import main.AccountService;
-import main.UserProfile;
 import templater.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -16,20 +15,20 @@ import java.util.Map;
  * @author alexey
  */
 public class SignInServlet extends HttpServlet {
-    public static final String signInPageURL = "/api/v1/auth/signin";
-    private AccountService accountService;
+    public static final String signInPageURL = "/login";
 
+    private AccountService accountService;
 
     public SignInServlet(AccountService accountService) {
         this.accountService = accountService;
     }
 
-
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
+
         final String sessionId = request.getSession().getId();
         if (accountService.isLoggedIn(sessionId)) {
-            response.sendRedirect(UserProfileServlet.UserProfilePageURL);
+            response.sendRedirect(UserProfileServlet.userProfilePageURL);
             return;
         }
 
@@ -37,7 +36,6 @@ public class SignInServlet extends HttpServlet {
         Map<String, Object> pageVariables = getPageVariables("", "");
         response.getWriter().println(PageGenerator.getPage("signIn.tml", pageVariables));
     }
-
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
@@ -47,7 +45,7 @@ public class SignInServlet extends HttpServlet {
         if (!login.isEmpty() && !password.isEmpty()) {
             final String sessionId = request.getSession().getId();
             if (accountService.signIn(sessionId, login, password)) {
-                response.sendRedirect(UserProfileServlet.UserProfilePageURL);
+                response.sendRedirect(UserProfileServlet.userProfilePageURL);
                 return;
             }
             
@@ -61,7 +59,6 @@ public class SignInServlet extends HttpServlet {
         Map<String, Object> pageVariables = getPageVariables("All fields are required!", login);
         response.getWriter().println(PageGenerator.getPage("signIn.tml", pageVariables));        
     }
-
 
     private Map<String, Object> getPageVariables(String answer, String login) {
         Map<String, Object> pageVariables = new HashMap<>();

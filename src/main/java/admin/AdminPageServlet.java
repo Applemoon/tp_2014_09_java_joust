@@ -1,7 +1,8 @@
 package admin;
 
-import main.AccountService;
 import frontend.UserProfileServlet;
+import main.AccountService;
+import main.UserProfile;
 import templater.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -17,37 +18,35 @@ import java.util.Map;
  */
 public class AdminPageServlet extends HttpServlet {
     public static final String adminPageURL = "/admin";
-    private AccountService accountService;
 
+    private AccountService accountService;
 
     public AdminPageServlet(AccountService accountService) {
         this.accountService = accountService;
     }
-    
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        final String login = request.getParameter("login");
-        if (login == null || !login.equals("admin"))
-        {
-            response.sendRedirect(UserProfileServlet.UserProfilePageURL);
-            return;
-        }
+        final String sessionId = request.getSession().getId();
+        UserProfile user = accountService.getUserProfile(sessionId);
+        if (user != null && user.getLogin().equals("admin")) {
+            response.setContentType("text/html; charset = utf-8");
+            response.setStatus(HttpServletResponse.SC_OK);
+            Map<String, Object> pageVariables = new HashMap<>();
+            final String timeString = request.getParameter("shutdown");
+            if (timeString != null) {
+                final int timeMS = Integer.valueOf(timeString);
+                System.out.print("Server will be down after: " + timeMS + " ms");
+                TimeHelper.sleep(timeMS);
+                System.out.print("\nShutdown");
+                System.exit(0);
+            }
 
-        response.setContentType("text/html; charset = utf-8");
-        response.setStatus(HttpServletResponse.SC_OK);
-        Map<String, Object> pageVariables = new HashMap<>();
-        final String timeString = request.getParameter("shutdown");
-        if (timeString != null) {
-            final int timeMS = Integer.valueOf(timeString);
-            System.out.print("Server will be down after: " + timeMS + " ms");
-            TimeHelper.sleep(timeMS);
-            System.out.print("\nShutdown");
-            System.exit(0);
+            pageVariables.put("amountOfRegisteredUsers", accountService.getAmountOfRegisteredUsers());
+            pageVariables.put("amountOfUsersOnline", accountService.getAmountOfUsersOnline());
+            response.getWriter().println(PageGenerator.getPage("admin.tml", pageVariables));
         }
-
-        pageVariables.put("amountOfRegisteredUsers", accountService.getAmountOfRegisteredUsers());
-        pageVariables.put("amountOfUsersOnline", accountService.getAmountOfUsersOnline());
-        response.getWriter().println(PageGenerator.getPage("admin.tml", pageVariables));
+        else
+            response.sendRedirect(UserProfileServlet.userProfilePageURL);
     }
 }

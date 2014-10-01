@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,14 +17,14 @@ import java.util.Map;
  * Created by alexey on 13.09.14.
  */
 public class SignUpServlet extends HttpServlet  {
-    public static final String signUpPageURL = "/api/v1/auth/signup";
-    private AccountService accountService;
 
+    public static final String signUpPageURL = "/signup";
+
+    private AccountService accountService;
 
     public SignUpServlet(AccountService accountService) {
         this.accountService = accountService;
     }
-
 
     public void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
@@ -44,7 +45,6 @@ public class SignUpServlet extends HttpServlet  {
 
         response.getWriter().println(PageGenerator.getPage("signUp.tml", pageVariables));
     }
-
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
@@ -69,9 +69,6 @@ public class SignUpServlet extends HttpServlet  {
             if (accountService.signUp(user)) {
                 pageVariables.put("answerFromServer", "Greetings, " + login + ". You were successfully registered!");
                 success = true;
-                pageVariables.put("login", "");
-                pageVariables.put("password", "");
-                pageVariables.put("email", "");
             }
             else {
                 pageVariables.put("answerFromServer", "Player with login " + login + " is already registered!");
@@ -79,11 +76,17 @@ public class SignUpServlet extends HttpServlet  {
 
         }
 
+
         if (!success) {
             pageVariables.put("login", login);
             pageVariables.put("password", password);
             pageVariables.put("email", email);
         } 
+        else {
+            pageVariables.put("login", "");
+            pageVariables.put("password", "");
+            pageVariables.put("email", "");
+        }
 
         response.getWriter().println(PageGenerator.getPage("signUp.tml", pageVariables));
     }

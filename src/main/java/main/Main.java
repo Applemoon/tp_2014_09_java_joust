@@ -18,6 +18,7 @@ import javax.servlet.Servlet;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
+
         if (args.length != 1) {
             System.out.println("Use port as the first argument");
             System.exit(1);
@@ -39,7 +40,7 @@ public class Main {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(signIn), SignInServlet.signInPageURL);
         context.addServlet(new ServletHolder(signUp), SignUpServlet.signUpPageURL);
-        context.addServlet(new ServletHolder(profile), UserProfileServlet.UserProfilePageURL);
+        context.addServlet(new ServletHolder(profile), UserProfileServlet.userProfilePageURL);
         context.addServlet(new ServletHolder(admin), AdminPageServlet.adminPageURL);
 
         ResourceHandler resource_handler = new ResourceHandler();
