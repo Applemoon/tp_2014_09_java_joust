@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class SignUpServlet extends HttpServlet  {
 
-    public static final String signUpPageURL = "/signup";
+    public static final String signUpPageURL = "/api/v1/auth/signup";
 
     private AccountService accountService;
 
