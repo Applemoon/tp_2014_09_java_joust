@@ -20,7 +20,7 @@ public class AccountService {
     public boolean signIn(String sessionId, String login, String password) {
         boolean result = false;
 
-        if (users.containsKey(login) && users.get(login).getPass().equals(password)) {
+        if (!isLoggedIn(sessionId) && users.containsKey(login) && users.get(login).getPass().equals(password)) {
             result = true;
             if (userSessions.containsKey(login))
                 logOut(userSessions.get(login));
