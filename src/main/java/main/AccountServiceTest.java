@@ -19,6 +19,10 @@ public class AccountServiceTest extends TestCase {
         return new UserProfile("1", "1", "1");
     }
 
+    private String getSessionId() {
+        return "sessionId";
+    }
+
     @Before
     public void setUp() throws Exception {
         System.out.printf("Test %d\n", ++counter);
@@ -70,7 +74,7 @@ public class AccountServiceTest extends TestCase {
         UserProfile user = createUser();
         accountService.signUp(user);
 
-        String sessionId = "sessionId";
+        String sessionId = getSessionId();
         accountService.signIn(sessionId, user.getLogin(), user.getPass());
 
         final boolean expectedSuccessIsLoggedInResult = accountService.isLoggedIn(sessionId);
@@ -83,7 +87,17 @@ public class AccountServiceTest extends TestCase {
 
     @Test
     public void testIsLoggedIn() throws Exception {
+        UserProfile user = createUser();
+        accountService.signUp(user);
 
+        String sessionId = getSessionId();
+        assertFalse(accountService.isLoggedIn(sessionId));
+
+        accountService.signIn(sessionId, user.getLogin(), user.getLogin());
+        assertTrue(accountService.isLoggedIn(sessionId));
+
+        accountService.logOut(sessionId);
+        assertFalse(accountService.isLoggedIn(sessionId));
     }
 
     @Test
