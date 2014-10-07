@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class AccountServiceTest extends TestCase {
@@ -102,7 +102,18 @@ public class AccountServiceTest extends TestCase {
 
     @Test
     public void testGetUserProfile() throws Exception {
+        UserProfile user = createUser();
+        accountService.signUp(user);
 
+        String sessionId = getSessionId();
+        assertNull(accountService.getUserProfile(sessionId));
+
+        accountService.signIn(sessionId, user.getLogin(), user.getPass());
+        UserProfile signInUser = accountService.getUserProfile(sessionId);
+        assertNotNull(signInUser);
+
+        assertEquals(user, signInUser);
+        assertTrue(user.equals(signInUser));
     }
 
     @Test
