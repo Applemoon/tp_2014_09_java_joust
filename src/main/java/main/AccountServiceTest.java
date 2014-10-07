@@ -11,33 +11,53 @@ import static org.junit.Assert.assertTrue;
 
 public class AccountServiceTest extends TestCase {
 
-    private AccountService accountService = new AccountService();
+    private AccountService accountService;
     private static int counter = 0;
-    private UserProfile user = new UserProfile("1", "1", "1");
 
     @Before
     public void setUp() throws Exception {
         System.out.printf("Test %d\n", ++counter);
-        accountService.signUp(user);
+        accountService = new AccountService();
     }
 
     @After
     public void tearDown() throws Exception {
+        accountService = null;
         System.out.printf("End Test %d\n", counter);
     }
 
     @Test
     public void testSignIn() throws Exception {
-        int before = accountService.getAmountOfUsersOnline();
-        assertTrue(accountService.signIn("sessionId", user.getLogin(), user.getPass()));
-        assertEquals(before + 1, accountService.getAmountOfUsersOnline());
-        assertFalse(accountService.signIn("sessionId", user.getLogin(), user.getPass()));
-        assertEquals(before + 1, accountService.getAmountOfUsersOnline());
+        final int before = accountService.getAmountOfUsersOnline();
+        UserProfile user = new UserProfile("1", "1", "1");
+        final boolean expectedSuccessSignUpResultResult = accountService.signUp(user);
+        assertTrue(expectedSuccessSignUpResultResult);
+
+        final boolean expectedSuccessSignInResult = accountService.signIn("sessionId", user.getLogin(), user.getPass());
+        assertTrue(expectedSuccessSignInResult);
+
+
+        int amountOfUsersOnline = accountService.getAmountOfUsersOnline();
+        assertEquals(before + 1, amountOfUsersOnline);
+
+
+        boolean expectedFailSignInResult = accountService.signIn("sessionId", user.getLogin(), user.getPass());
+        assertFalse(expectedFailSignInResult);
+
+        amountOfUsersOnline = accountService.getAmountOfUsersOnline();
+        assertEquals(before + 1, amountOfUsersOnline);
     }
 
     @Test
     public void testSignUp() throws Exception {
-        int before = accountService.getAmountOfRegisteredUsers();
+        assertEquals(2, accountService.getAmountOfRegisteredUsers()); //"admin" and "test" users already created
+
+        UserProfile user = new UserProfile("1", "1", "1");
+        boolean expectedSuccessSignUpResult = accountService.signUp(user);
+        assertTrue(expectedSuccessSignUpResult);
+
+        boolean expectedFailedSignUpResult = accountService.signUp(user);
+        assertFalse(expectedFailedSignUpResult);
     }
 
     @Test
