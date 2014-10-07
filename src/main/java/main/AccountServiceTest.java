@@ -7,12 +7,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class AccountServiceTest extends TestCase {
 
     private AccountService accountService;
     private static int counter = 0;
+
+    private UserProfile createUser() {
+        return new UserProfile("1", "1", "1");
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -29,7 +34,7 @@ public class AccountServiceTest extends TestCase {
     @Test
     public void testSignIn() throws Exception {
         final int before = accountService.getAmountOfUsersOnline();
-        UserProfile user = new UserProfile("1", "1", "1");
+        UserProfile user = createUser();
         final boolean expectedSuccessSignUpResultResult = accountService.signUp(user);
         assertTrue(expectedSuccessSignUpResultResult);
 
@@ -52,7 +57,7 @@ public class AccountServiceTest extends TestCase {
     public void testSignUp() throws Exception {
         assertEquals(2, accountService.getAmountOfRegisteredUsers()); //"admin" and "test" users already created
 
-        UserProfile user = new UserProfile("1", "1", "1");
+        UserProfile user = createUser();
         boolean expectedSuccessSignUpResult = accountService.signUp(user);
         assertTrue(expectedSuccessSignUpResult);
 
@@ -62,7 +67,18 @@ public class AccountServiceTest extends TestCase {
 
     @Test
     public void testLogOut() throws Exception {
+        UserProfile user = createUser();
+        accountService.signUp(user);
 
+        String sessionId = "sessionId";
+        accountService.signIn(sessionId, user.getLogin(), user.getPass());
+
+        final boolean expectedSuccessIsLoggedInResult = accountService.isLoggedIn(sessionId);
+        assertTrue(expectedSuccessIsLoggedInResult);
+
+        accountService.logOut(sessionId);
+        final boolean expectedFailIsLoggedInResult = accountService.isLoggedIn(sessionId);
+        assertFalse(expectedFailIsLoggedInResult);
     }
 
     @Test
