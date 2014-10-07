@@ -118,11 +118,27 @@ public class AccountServiceTest extends TestCase {
 
     @Test
     public void testGetAmountOfRegisteredUsers() throws Exception {
+        assertEquals(2, accountService.getAmountOfRegisteredUsers());
+
+        UserProfile user = createUser();
+        accountService.signUp(user);
+
         assertEquals(3, accountService.getAmountOfRegisteredUsers());
     }
 
     @Test
     public void testGetAmountOfUsersOnline() throws Exception {
+        assertEquals(0, accountService.getAmountOfUsersOnline());
+
+        UserProfile user = createUser();
+        accountService.signUp(user);
+        String sessionId = getSessionId();
+        accountService.signIn(sessionId, user.getLogin(), user.getPass());
+
+        assertEquals(1, accountService.getAmountOfUsersOnline());
+
+        accountService.logOut(sessionId);
+
         assertEquals(0, accountService.getAmountOfUsersOnline());
     }
 }
