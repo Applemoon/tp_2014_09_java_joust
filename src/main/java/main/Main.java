@@ -1,17 +1,23 @@
 package main;
 
-import admin.AdminPageServlet;
-import frontend.SignInServlet;
-import frontend.SignUpServlet;
-import frontend.UserProfileServlet;
+import interfaces.AdminPageServlet;
+import interfaces.SignInServlet;
+import interfaces.SignUpServlet;
+import interfaces.UserProfileServlet;
 import interfaces.AccountService;
+
+import admin.AdminPageServletImpl;
+import frontend.SignInServletImpl;
+import frontend.SignUpServletImpl;
+import frontend.UserProfileServletImpl;
+import utils.AccountServiceImpl;
+
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import utils.AccountServiceImpl;
 
 import javax.servlet.Servlet;
 
@@ -33,10 +39,10 @@ public class Main {
 
         AccountService accountService = new AccountServiceImpl();
 
-        Servlet signIn = new SignInServlet(accountService);
-        Servlet signUp = new SignUpServlet(accountService);
-        Servlet profile = new UserProfileServlet(accountService);
-        Servlet admin = new AdminPageServlet(accountService);
+        Servlet signIn = new SignInServletImpl(accountService);
+        Servlet signUp = new SignUpServletImpl(accountService);
+        Servlet profile = new UserProfileServletImpl(accountService);
+        Servlet admin = new AdminPageServletImpl(accountService);
 
         Server server = new Server(port);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);

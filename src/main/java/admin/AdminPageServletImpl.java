@@ -1,8 +1,10 @@
 package admin;
 
-import frontend.UserProfileServlet;
+import interfaces.UserProfileServlet;
 import interfaces.AccountService;
-import db.UserProfile;
+import interfaces.AdminPageServlet;
+import interfaces.UserProfile;
+
 import utils.PageGenerator;
 import utils.TimeHelper;
 
@@ -17,12 +19,10 @@ import java.util.Map;
 /**
  * Created by alexey on 25.09.14.
  */
-public class AdminPageServlet extends HttpServlet {
-    public static final String adminPageURL = "/admin";
-
+public class AdminPageServletImpl extends HttpServlet implements AdminPageServlet {
     private AccountService accountService;
 
-    public AdminPageServlet(AccountService accountService) {
+    public AdminPageServletImpl(AccountService accountService) {
         this.accountService = accountService;
     }
 

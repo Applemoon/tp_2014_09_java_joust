@@ -1,6 +1,9 @@
 package frontend;
 
 import interfaces.AccountService;
+import interfaces.SignInServlet;
+import interfaces.UserProfileServlet;
+
 import utils.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -14,12 +17,10 @@ import java.util.Map;
 /**
  * @author alexey
  */
-public class SignInServlet extends HttpServlet {
-    public static final String signInPageURL = "/api/v1/auth/signin";
-
+public class SignInServletImpl extends HttpServlet implements SignInServlet {
     private AccountService accountService;
 
-    public SignInServlet(AccountService accountService) {
+    public SignInServletImpl(AccountService accountService) {
         this.accountService = accountService;
     }
 

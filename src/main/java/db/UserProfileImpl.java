@@ -1,14 +1,16 @@
 package db;
 
+import interfaces.UserProfile;
+
 /**
  * Created by alexey on 13.09.14.
  */
-public class UserProfile {
+public class UserProfileImpl implements UserProfile {
     private final String login;
     private final String pass;
     private final String email;
 
-    public UserProfile(String login, String pass, String email) {
+    public UserProfileImpl(String login, String pass, String email) {
         this.login = login;
         this.pass = pass;
         this.email = email;

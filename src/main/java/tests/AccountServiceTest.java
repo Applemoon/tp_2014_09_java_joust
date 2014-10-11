@@ -1,12 +1,16 @@
 package tests;
 
+import interfaces.UserProfile;
 import interfaces.AccountService;
+
+import db.UserProfileImpl;
+import utils.AccountServiceImpl;
+
 import junit.framework.TestCase;
-import db.UserProfile;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import utils.AccountServiceImpl;
 
 public class AccountServiceTest extends TestCase {
 
@@ -14,7 +18,7 @@ public class AccountServiceTest extends TestCase {
     private static int counter = 0;
 
     private UserProfile createUser() {
-        return new UserProfile("1", "1", "1");
+        return new UserProfileImpl("1", "1", "1");
     }
 
     private String getSessionId() {

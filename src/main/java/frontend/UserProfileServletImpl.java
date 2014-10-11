@@ -1,7 +1,10 @@
 package frontend;
 
 import interfaces.AccountService;
-import db.UserProfile;
+import interfaces.UserProfile;
+import interfaces.SignInServlet;
+import interfaces.UserProfileServlet;
+
 import utils.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -15,13 +18,10 @@ import java.util.Map;
 /**
  * Created by alexey on 26.09.14.
  */
-public class UserProfileServlet extends HttpServlet {
-
-    public static final String userProfilePageURL = "/profile";
-
+public class UserProfileServletImpl extends HttpServlet implements UserProfileServlet {
     private AccountService accountService;
 
-    public UserProfileServlet(AccountService accountService) {
+    public UserProfileServletImpl(AccountService accountService) {
         this.accountService = accountService;
     }
 

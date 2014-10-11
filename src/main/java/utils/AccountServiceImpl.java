@@ -1,7 +1,9 @@
 package utils;
 
 import interfaces.AccountService;
-import db.UserProfile;
+import interfaces.UserProfile;
+
+import db.UserProfileImpl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,8 +18,8 @@ public class AccountServiceImpl implements AccountService {
     private Map<String, String> userSessions = new HashMap<>();
 
     public AccountServiceImpl() {
-        users.put("admin", new UserProfile("admin", "admin", "admin"));
-        users.put("test", new UserProfile("test", "test", "test"));
+        users.put("admin", new UserProfileImpl("admin", "admin", "admin"));
+        users.put("test", new UserProfileImpl("test", "test", "test"));
     }
 
     public boolean signIn(String sessionId, String login, String password) {

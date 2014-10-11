@@ -1,7 +1,10 @@
 package frontend;
 
 import interfaces.AccountService;
-import db.UserProfile;
+import interfaces.SignUpServlet;
+import interfaces.UserProfile;
+
+import db.UserProfileImpl;
 import utils.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -15,13 +18,10 @@ import java.util.Map;
 /**
  * Created by alexey on 13.09.14.
  */
-public class SignUpServlet extends HttpServlet  {
-
-    public static final String signUpPageURL = "/api/v1/auth/signup";
-
+public class SignUpServletImpl extends HttpServlet implements SignUpServlet {
     private AccountService accountService;
 
-    public SignUpServlet(AccountService accountService) {
+    public SignUpServletImpl(AccountService accountService) {
         this.accountService = accountService;
     }
 
@@ -63,7 +63,7 @@ public class SignUpServlet extends HttpServlet  {
             pageVariables.put("answerFromServer", "All fields are required!");
         } 
         else {
-            UserProfile user = new UserProfile(login, password, email);
+            UserProfile user = new UserProfileImpl(login, password, email);
 
             if (accountService.signUp(user)) {
                 pageVariables.put("answerFromServer", "Greetings, " + login + ". You were successfully registered!");
@@ -74,7 +74,6 @@ public class SignUpServlet extends HttpServlet  {
             }
 
         }
-
 
         if (!success) {
             pageVariables.put("login", login);
