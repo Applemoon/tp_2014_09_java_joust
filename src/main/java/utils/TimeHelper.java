@@ -1,7 +1,7 @@
 package utils;
 
 /**
- * Created by alexey on 25.09.14.
+ * @author v.chibrikov
  */
 public class TimeHelper {
     public static void sleep(int period) {

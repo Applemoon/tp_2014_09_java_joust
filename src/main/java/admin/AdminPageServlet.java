@@ -1,9 +1,10 @@
 package admin;
 
 import frontend.UserProfileServlet;
-import main.AccountService;
-import main.UserProfile;
-import templater.PageGenerator;
+import interfaces.AccountService;
+import db.UserProfile;
+import utils.PageGenerator;
+import utils.TimeHelper;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

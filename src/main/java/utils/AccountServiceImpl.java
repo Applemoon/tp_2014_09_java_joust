@@ -1,7 +1,7 @@
 package utils;
 
 import interfaces.AccountService;
-import main.UserProfile;
+import db.UserProfile;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,6 +1,7 @@
 *.class
-target
-.idea
+target/
+.idea/
+*.swp
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
