@@ -1,17 +1,18 @@
-package main;
+package tests;
 
+import interfaces.AccountService;
 import junit.framework.TestCase;
-import org.eclipse.jetty.server.Authentication;
+import main.UserProfile;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import utils.AccountServiceImpl;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 
 public class AccountServiceTest extends TestCase {
 
-    private AccountService accountService = new AccountService();
+    private AccountService accountService = new AccountServiceImpl();
     private static int counter = 0;
     private UserProfile user = new UserProfile("1", "1", "1");
 

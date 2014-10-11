@@ -1,4 +1,7 @@
-package main;
+package utils;
+
+import interfaces.AccountService;
+import main.UserProfile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,13 +9,13 @@ import java.util.Map;
 /**
  * Created by alexey on 13.09.14.
  */
-public class AccountService {
+public class AccountServiceImpl implements AccountService {
 
     private Map<String, UserProfile> users = new HashMap<>();
     private Map<String, String> sessions = new HashMap<>();
     private Map<String, String> userSessions = new HashMap<>();
 
-    public AccountService() {
+    public AccountServiceImpl() {
         users.put("admin", new UserProfile("admin", "admin", "admin"));
         users.put("test", new UserProfile("test", "test", "test"));
     }

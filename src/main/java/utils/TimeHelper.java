@@ -1,4 +1,4 @@
-package admin;
+package utils;
 
 /**
  * Created by alexey on 25.09.14.

@@ -1,4 +1,4 @@
-package main;
+package db;
 
 /**
  * Created by alexey on 13.09.14.
