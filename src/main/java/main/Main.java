@@ -1,23 +1,17 @@
 package main;
 
-import interfaces.AdminPageServlet;
-import interfaces.SignInServlet;
-import interfaces.SignUpServlet;
-import interfaces.UserProfileServlet;
-import interfaces.AccountService;
-
 import admin.AdminPageServletImpl;
-import frontend.SignInServletImpl;
-import frontend.SignUpServletImpl;
-import frontend.UserProfileServletImpl;
-import utils.AccountServiceImpl;
-
+import frontend.*;
+import interfaces.*;
+import base.WebSocketServiceImpl;
+import base.GameMechanicsImpl;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import utils.AccountServiceImpl;
 
 import javax.servlet.Servlet;
 
@@ -26,40 +20,48 @@ import javax.servlet.Servlet;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-
         if (args.length != 1) {
             System.out.println("Use port as the first argument");
             System.exit(1);
         }
 
         final String portString = args[0];
-        int port = Integer.valueOf(portString);
+        final int port = Integer.valueOf(portString);
 
-        System.out.append("Starting at port: ").append(String.valueOf(port)).append('\n');
+        System.out.append("Starting at port: ").append(portString).append('\n');
+
+        Server server = new Server(port);
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
         AccountService accountService = new AccountServiceImpl();
+        WebSocketService webSocketService = new WebSocketServiceImpl();
+
+        GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService);
 
         Servlet signIn = new SignInServletImpl(accountService);
         Servlet signUp = new SignUpServletImpl(accountService);
         Servlet profile = new UserProfileServletImpl(accountService);
         Servlet admin = new AdminPageServletImpl(accountService);
+        WebSocketGameServlet webSocketGameServlet = new WebSocketGameServlet(gameMechanics,
+                webSocketService, accountService);
+        Servlet frontendServlet = new FrontendServlet(accountService);
 
-        Server server = new Server(port);
-        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(signIn), SignInServlet.signInPageURL);
         context.addServlet(new ServletHolder(signUp), SignUpServlet.signUpPageURL);
         context.addServlet(new ServletHolder(profile), UserProfileServlet.userProfilePageURL);
         context.addServlet(new ServletHolder(admin), AdminPageServlet.adminPageURL);
+        context.addServlet(new ServletHolder(webSocketGameServlet), WebSocketGameServlet.gamePageURL);
+        context.addServlet(new ServletHolder(frontendServlet), "/game.html");
 
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setDirectoriesListed(true);
-        resource_handler.setResourceBase("public_html");
+        resource_handler.setResourceBase("static");
 
         HandlerList handlers = new HandlerList();
         handlers.setHandlers(new Handler[]{resource_handler, context});
         server.setHandler(handlers);
 
         server.start();
-        server.join();
+        gameMechanics.run();
     }
 }

@@ -1,6 +1,7 @@
 package frontend;
 
 import interfaces.AccountService;
+import interfaces.SignInServlet;
 import interfaces.SignUpServlet;
 import interfaces.UserProfile;
 
@@ -25,9 +26,9 @@ public class SignUpServletImpl extends HttpServlet implements SignUpServlet {
         this.accountService = accountService;
     }
 
+    @Override
     public void doGet(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
-
+                      HttpServletResponse response) throws ServletException, IOException {
         response.setStatus(HttpServletResponse.SC_OK);
 
         Map<String, Object> pageVariables = new HashMap<>();
@@ -38,13 +39,15 @@ public class SignUpServletImpl extends HttpServlet implements SignUpServlet {
 
         final String sessionId = request.getSession().getId();
         if (accountService.isLoggedIn(sessionId))
-            pageVariables.put("answerFromServer", "Hello, " + accountService.getUserProfile(sessionId).getLogin() + "!");
+            // TODO написать пограмотнее
+            pageVariables.put("answerFromServer", "You are logged as " + accountService.getUserProfile(sessionId).getLogin() + ".");
         else
             pageVariables.put("answerFromServer", "");
 
         response.getWriter().println(PageGenerator.getPage("signUp.tml", pageVariables));
     }
 
+    @Override
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         final String login = request.getParameter("login");
@@ -55,37 +58,33 @@ public class SignUpServletImpl extends HttpServlet implements SignUpServlet {
 
         Map<String, Object> pageVariables = new HashMap<>();
 
-        pageVariables.put("url", signUpPageURL);
-
-        boolean success = false;
-
         if (login.isEmpty() || password.isEmpty() || email.isEmpty()) {
             pageVariables.put("answerFromServer", "All fields are required!");
-        } 
-        else {
-            UserProfile user = new UserProfileImpl(login, password, email);
-
-            if (accountService.signUp(user)) {
-                pageVariables.put("answerFromServer", "Greetings, " + login + ". You were successfully registered!");
-                success = true;
-            }
-            else {
-                pageVariables.put("answerFromServer", "Player with login " + login + " is already registered!");
-            }
-
-        }
-
-        if (!success) {
             pageVariables.put("login", login);
             pageVariables.put("password", password);
             pageVariables.put("email", email);
-        } 
-        else {
-            pageVariables.put("login", "");
-            pageVariables.put("password", "");
-            pageVariables.put("email", "");
+            pageVariables.put("url", signUpPageURL);
+            response.getWriter().println(PageGenerator.getPage("signUp.tml", pageVariables));
+            return;
         }
 
+        UserProfile user = new UserProfileImpl(login, password, email);
+        if (accountService.signUp(user)) {
+            pageVariables.put("answerFromServer", "Greetings, " + login + ". You were successfully registered!");
+            pageVariables.put("login", login);
+            pageVariables.put("password", password);
+            pageVariables.put("email", email);
+            pageVariables.put("url", SignInServlet.signInPageURL);
+            // TODO страница загружается нормально, но в браузере url ".../signup"
+            response.getWriter().println(PageGenerator.getPage("signIn.tml", pageVariables));
+            return;
+        }
+
+        pageVariables.put("answerFromServer", "Player with login " + login + " is already registered!");
+        pageVariables.put("login", "");
+        pageVariables.put("password", "");
+        pageVariables.put("email", email);
+        pageVariables.put("url", signUpPageURL);
         response.getWriter().println(PageGenerator.getPage("signUp.tml", pageVariables));
     }
 }

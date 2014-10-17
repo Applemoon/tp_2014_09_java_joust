@@ -16,9 +16,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by alexey on 25.09.14.
- */
 public class AdminPageServletImpl extends HttpServlet implements AdminPageServlet {
     private AccountService accountService;
 
@@ -26,6 +23,7 @@ public class AdminPageServletImpl extends HttpServlet implements AdminPageServle
         this.accountService = accountService;
     }
 
+    @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         final String sessionId = request.getSession().getId();
@@ -46,8 +44,9 @@ public class AdminPageServletImpl extends HttpServlet implements AdminPageServle
             pageVariables.put("amountOfRegisteredUsers", accountService.getAmountOfRegisteredUsers());
             pageVariables.put("amountOfUsersOnline", accountService.getAmountOfUsersOnline());
             response.getWriter().println(PageGenerator.getPage("admin.tml", pageVariables));
+            return;
         }
-        else
-            response.sendRedirect(UserProfileServlet.userProfilePageURL);
+
+        response.sendRedirect(UserProfileServlet.userProfilePageURL);
     }
 }

@@ -16,14 +16,17 @@ public class UserProfileImpl implements UserProfile {
         this.email = email;
     }
 
+    @Override
     public String getLogin() {
         return login;
     }
 
+    @Override
     public String getEmail() {
         return email;
     }
 
+    @Override
     public String getPass() {
         return pass;
     }

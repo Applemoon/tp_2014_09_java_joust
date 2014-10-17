@@ -12,29 +12,29 @@ import java.util.Map;
  * Created by alexey on 13.09.14.
  */
 public class AccountServiceImpl implements AccountService {
-
     private Map<String, UserProfile> users = new HashMap<>();
-    private Map<String, String> sessions = new HashMap<>();
-    private Map<String, String> userSessions = new HashMap<>();
+    private Map<String, String> sessions = new HashMap<>(); // (id, login)
+    private Map<String, String> userSessions = new HashMap<>(); // (login, id)
+
 
     public AccountServiceImpl() {
         users.put("admin", new UserProfileImpl("admin", "admin", "admin"));
         users.put("test", new UserProfileImpl("test", "test", "test"));
     }
 
+    @Override
     public boolean signIn(String sessionId, String login, String password) {
-        boolean result = false;
-
         if (!isLoggedIn(sessionId) && users.containsKey(login) && users.get(login).getPass().equals(password)) {
-            result = true;
             if (userSessions.containsKey(login))
                 logOut(userSessions.get(login));
             sessions.put(sessionId, login);
             userSessions.put(login, sessionId);
+            return true;
         }
-        return result;
+        return false;
     }
 
+    @Override
     public boolean signUp(UserProfile user) {
         if (users.containsKey(user.getLogin()))
             return false;
@@ -42,6 +42,7 @@ public class AccountServiceImpl implements AccountService {
         return true;
     }
 
+    @Override
     public void logOut(String sessionId) {
         if (isLoggedIn(sessionId)) {
             userSessions.remove(sessions.get(sessionId));
@@ -49,20 +50,24 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
+    @Override
     public boolean isLoggedIn(String sessionId) {
         return sessions.containsKey(sessionId);
     }
 
+    @Override
     public UserProfile getUserProfile(String sessionId) {
         if (isLoggedIn(sessionId))
             return users.get(sessions.get(sessionId));
         return null;
     }
 
+    @Override
     public int getAmountOfRegisteredUsers() {
         return users.size();
     }
 
+    @Override
     public int getAmountOfUsersOnline() {
         return sessions.size();
     }

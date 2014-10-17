@@ -24,6 +24,7 @@ public class SignInServletImpl extends HttpServlet implements SignInServlet {
         this.accountService = accountService;
     }
 
+    @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
 
@@ -38,6 +39,7 @@ public class SignInServletImpl extends HttpServlet implements SignInServlet {
         response.getWriter().println(PageGenerator.getPage("signIn.tml", pageVariables));
     }
 
+    @Override
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         final String login = request.getParameter("login");

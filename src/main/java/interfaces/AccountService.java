@@ -8,6 +8,8 @@ public interface AccountService {
 
     boolean signUp(UserProfile user);
 
+    void logOut(String sessionId);
+
     boolean isLoggedIn(String sessionId);
 
     UserProfile getUserProfile(String sessionId);
@@ -15,6 +17,4 @@ public interface AccountService {
     int getAmountOfRegisteredUsers();
 
     int getAmountOfUsersOnline();
-
-    void logOut(String sessionId);
 }

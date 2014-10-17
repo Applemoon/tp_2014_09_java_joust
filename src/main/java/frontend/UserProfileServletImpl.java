@@ -25,6 +25,7 @@ public class UserProfileServletImpl extends HttpServlet implements UserProfileSe
         this.accountService = accountService;
     }
 
+    @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         final String sessionId = request.getSession().getId();
