@@ -1,5 +1,7 @@
 package utils;
 
+import java.util.Date;
+
 public class TimeHelper {
 	public static void sleep(int period){
 		try{
@@ -8,4 +10,9 @@ public class TimeHelper {
 			e.printStackTrace();
 		}
 	}
+
+//    public static long getTimeInMs() {
+//        Date date = new Date();
+//        return date.getTime();
+//    }
 }

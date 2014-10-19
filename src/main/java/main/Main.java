@@ -20,16 +20,22 @@ import javax.servlet.Servlet;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-        if (args.length != 1) {
-            System.out.println("Use port as the first argument");
+//        if (args.length != 1) {
+//            System.out.println("Use port as the first argument");
+//            System.exit(1);
+//        }
+//
+//        final String portString = args[0];
+//        final int port = Integer.valueOf(portString);
+//
+//        System.out.append("Starting at port: ").append(portString).append('\n');
+
+        Port portObj = (Port) ReadXMLFileSAX.readXML("port.xml");
+        int port = portObj.getPort();
+        if (port != 8080) {
+            System.out.println(port);
             System.exit(1);
         }
-
-        final String portString = args[0];
-        final int port = Integer.valueOf(portString);
-
-        System.out.append("Starting at port: ").append(portString).append('\n');
-
         Server server = new Server(port);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
