@@ -1,4 +1,6 @@
-package main;
+package utils;
+
+import utils.SaxHandler;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;

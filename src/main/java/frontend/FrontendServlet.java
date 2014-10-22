@@ -24,8 +24,12 @@ public class FrontendServlet extends HttpServlet {
                       HttpServletResponse response) throws ServletException, IOException {
         final String sessionId = request.getSession().getId();
         final UserProfile user = accountService.getUserProfile(sessionId);
+        if (user == null) {
+            response.sendRedirect(SignInServletImpl.signInPageURL);
+            return;
+        }
         final String name = user.getLogin();
-        final String safeName = name == null ? "NoName" : name;
+        final String safeName = (name == null) ? "NoName" : name;
 
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("myName", safeName);
@@ -35,8 +39,4 @@ public class FrontendServlet extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
     }
-
-    @Override
-    public void doPost(HttpServletRequest request,
-                       HttpServletResponse response) throws ServletException, IOException {}
 }

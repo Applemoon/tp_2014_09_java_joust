@@ -1,6 +1,7 @@
 package main;
 
 import admin.AdminPageServletImpl;
+import base.Port;
 import frontend.*;
 import interfaces.*;
 import base.WebSocketServiceImpl;
@@ -12,6 +13,7 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import utils.AccountServiceImpl;
+import utils.ReadXMLFileSAX;
 
 import javax.servlet.Servlet;
 
@@ -20,22 +22,8 @@ import javax.servlet.Servlet;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-//        if (args.length != 1) {
-//            System.out.println("Use port as the first argument");
-//            System.exit(1);
-//        }
-//
-//        final String portString = args[0];
-//        final int port = Integer.valueOf(portString);
-//
-//        System.out.append("Starting at port: ").append(portString).append('\n');
-
         Port portObj = (Port) ReadXMLFileSAX.readXML("port.xml");
-        int port = portObj.getPort();
-        if (port != 8080) {
-            System.out.println(port);
-            System.exit(1);
-        }
+        final int port = portObj.getPort();
         Server server = new Server(port);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
@@ -71,3 +59,8 @@ public class Main {
         gameMechanics.run();
     }
 }
+
+/*
+    TODO
+    игра закончилась -> F5 -> косяки
+ */

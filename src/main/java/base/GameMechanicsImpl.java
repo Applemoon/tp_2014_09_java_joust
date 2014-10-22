@@ -4,10 +4,7 @@ import interfaces.GameMechanics;
 import interfaces.WebSocketService;
 import utils.TimeHelper;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class GameMechanicsImpl implements GameMechanics {
     private static final int STEP_TIME = 100;
@@ -15,19 +12,25 @@ public class GameMechanicsImpl implements GameMechanics {
     private WebSocketService webSocketService;
     private Map<String, GameSession> nameToGame = new HashMap<>();
     private Set<GameSession> allSessions = new HashSet<>();
-    private String waiter;
+    private Queue<String> waitersQueue;
 
     public GameMechanicsImpl(WebSocketService webSocketService) {
         this.webSocketService = webSocketService;
+        waitersQueue = new LinkedList<String>();
     }
 
     @Override
     public void addUser(String user) {
-        if (waiter != null) {
-            starGame(user);
-            waiter = null;
-        } else {
-            waiter = user;
+        if (!waitersQueue.isEmpty()) {
+            final String secondUser = waitersQueue.remove();
+            if (user == secondUser) {
+                waitersQueue.add(user);
+                return;
+            }
+            startGame(user, secondUser);
+        }
+        else {
+            waitersQueue.add(user);
         }
     }
 
@@ -51,17 +54,17 @@ public class GameMechanicsImpl implements GameMechanics {
     }
 
     private void gmStep() {
-        for (GameSession session : allSessions)
+        for (GameSession session : allSessions) {
             if (session.getSessionTime() > gameTime) {
                 final boolean firstWin = session.isFirstWin();
                 webSocketService.notifyGameOver(session.getFirst(), firstWin);
                 webSocketService.notifyGameOver(session.getSecond(), !firstWin);
-
+                allSessions.remove(session);
             }
+        }
     }
 
-    private void starGame(String first) {
-        String second = waiter;
+    private void startGame(String first, String second) {
         GameSession gameSession = new GameSession(first, second);
         allSessions.add(gameSession);
         nameToGame.put(first, gameSession);

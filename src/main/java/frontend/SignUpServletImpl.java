@@ -74,9 +74,8 @@ public class SignUpServletImpl extends HttpServlet implements SignUpServlet {
             pageVariables.put("login", login);
             pageVariables.put("password", password);
             pageVariables.put("email", email);
-            pageVariables.put("url", SignInServlet.signInPageURL);
-            // TODO страница загружается нормально, но в браузере url ".../signup"
-            response.getWriter().println(PageGenerator.getPage("signIn.tml", pageVariables));
+            pageVariables.put("url", SignUpServlet.signUpPageURL);
+            response.getWriter().println(PageGenerator.getPage("signUp.tml", pageVariables));
             return;
         }
 
