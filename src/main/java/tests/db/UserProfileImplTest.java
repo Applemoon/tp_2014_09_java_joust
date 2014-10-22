@@ -1,28 +1,30 @@
-package tests;
+package db;
 
-import interfaces.UserProfile;
+import static org.junit.Assert.assertEquals;
 
-import db.UserProfileImpl;
+import org.junit.Before;
+import org.junit.Test;
 
-import junit.framework.TestCase;
+public class UserProfileImplTest {
 
-public class UserProfileTest extends TestCase {
+    private UserProfileImpl user;
 
-    private UserProfile user;
-
+    @Before
     public void setUp() throws Exception {
-        super.setUp();
         user = new UserProfileImpl(getLogin(), getPass(), getEmail());
     }
 
+    @Test
     public void testGetLogin() throws Exception {
         assertEquals(getLogin(), user.getLogin());
     }
 
+    @Test
     public void testGetEmail() throws Exception {
         assertEquals(getEmail(), user.getEmail());
     }
 
+    @Test
     public void testGetPass() throws Exception {
         assertEquals(getPass(), user.getPass());
     }

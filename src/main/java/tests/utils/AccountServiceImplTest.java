@@ -1,21 +1,17 @@
-package tests;
+package utils;
 
 import interfaces.UserProfile;
-import interfaces.AccountService;
-
 import db.UserProfileImpl;
-import utils.AccountServiceImpl;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AccountServiceTest extends TestCase {
+public class AccountServiceImplTest {
 
-    private AccountService accountService;
-    private static int counter = 0;
+    private AccountServiceImpl accountService;
 
     private UserProfile createUser() {
         return new UserProfileImpl("1", "1", "1");
@@ -27,14 +23,12 @@ public class AccountServiceTest extends TestCase {
 
     @Before
     public void setUp() throws Exception {
-        System.out.printf("Test %d\n", ++counter);
         accountService = new AccountServiceImpl();
     }
 
     @After
     public void tearDown() throws Exception {
         accountService = null;
-        System.out.printf("End Test %d\n", counter);
     }
 
     @Test
