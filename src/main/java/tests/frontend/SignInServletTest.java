@@ -2,8 +2,6 @@ package frontend;
 
 import interfaces.AccountService;
 
-import interfaces.UserProfile;
-import interfaces.UserProfileServlet;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,9 +13,9 @@ import java.io.PrintWriter;
 
 import static org.mockito.Mockito.*;
 
-public class SignInServletImplTest {
+public class SignInServletTest {
 
-    private SignInServletImpl signInServlet;
+    private SignInServlet signInServlet;
 
     private String sessionId = "sessionId";
 
@@ -30,7 +28,7 @@ public class SignInServletImplTest {
 
     @Before
     public void setUp() throws Exception {
-        signInServlet = new SignInServletImpl(mockAccountService);
+        signInServlet = new SignInServlet(mockAccountService);
 
         mockRequest = mock(HttpServletRequest.class);
         mockResponse = mock(HttpServletResponse.class);

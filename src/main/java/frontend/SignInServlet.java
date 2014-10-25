@@ -7,32 +7,37 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import org.json.simple.JSONObject;
+import utils.PageGenerator;
 
 /**
  * @author alexey
  */
-public class SignInServletImpl extends HttpServlet {
+public class SignInServlet extends HttpServlet {
     public final static String signInPageURL = "/api/v1/auth/signin";
     private AccountService accountService;
 
-    public SignInServletImpl(AccountService accountService) {
+    public SignInServlet(AccountService accountService) {
         this.accountService = accountService;
     }
 
     @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-
         final String sessionId = request.getSession().getId();
         if (accountService.isLoggedIn(sessionId)) {
-            response.sendRedirect(UserProfileServletImpl.userProfilePageURL);
+            response.sendRedirect(UserProfileServlet.userProfilePageURL);
             return;
         }
 
         response.setStatus(HttpServletResponse.SC_OK);
-        JSONObject pageVariables = getPageVariables("", "");
-        response.getWriter().println(pageVariables.toString());
+        Map<String, Object> pageVariables = new HashMap<>();
+        pageVariables.put("url", signInPageURL);
+        pageVariables.put("answerFromServer", "");
+        pageVariables.put("login", "");
+        response.getWriter().println(PageGenerator.getPage("signIn.tml", pageVariables));
     }
 
     @Override
@@ -44,7 +49,7 @@ public class SignInServletImpl extends HttpServlet {
         if (!login.isEmpty() && !password.isEmpty()) {
             final String sessionId = request.getSession().getId();
             if (accountService.signIn(sessionId, login, password)) {
-                response.sendRedirect(UserProfileServletImpl.userProfilePageURL);
+                response.sendRedirect(UserProfileServlet.userProfilePageURL);
                 return;
             }
             

@@ -1,6 +1,6 @@
 package admin;
 
-import frontend.UserProfileServletImpl;
+import frontend.UserProfileServlet;
 import interfaces.AccountService;
 import interfaces.UserProfile;
 import utils.TimeHelper;
@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class AdminPageServletImpl extends HttpServlet {
+public class AdminPageServlet extends HttpServlet {
     public static final String adminPageURL = "/admin";
     private AccountService accountService;
 
-    public AdminPageServletImpl(AccountService accountService) {
+    public AdminPageServlet(AccountService accountService) {
         this.accountService = accountService;
     }
 
@@ -44,6 +44,6 @@ public class AdminPageServletImpl extends HttpServlet {
             return;
         }
 
-        response.sendRedirect(UserProfileServletImpl.userProfilePageURL);
+        response.sendRedirect(UserProfileServlet.userProfilePageURL);
     }
 }

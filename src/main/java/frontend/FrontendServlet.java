@@ -23,7 +23,7 @@ public class FrontendServlet extends HttpServlet {
         final String sessionId = request.getSession().getId();
         final UserProfile user = accountService.getUserProfile(sessionId);
         if (user == null) {
-            response.sendRedirect(SignInServletImpl.signInPageURL);
+            response.sendRedirect(SignInServlet.signInPageURL);
             return;
         }
         final String name = user.getLogin();

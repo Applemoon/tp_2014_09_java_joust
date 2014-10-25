@@ -9,16 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import org.json.simple.JSONObject;
+import utils.PageGenerator;
 
 /**
  * Created by alexey on 13.09.14.
  */
-public class SignUpServletImpl extends HttpServlet {
+public class SignUpServlet extends HttpServlet {
     public static final String signUpPageURL = "/api/v1/auth/signup";
     private AccountService accountService;
 
-    public SignUpServletImpl(AccountService accountService) {
+    public SignUpServlet(AccountService accountService) {
         this.accountService = accountService;
     }
 
@@ -27,7 +30,7 @@ public class SignUpServletImpl extends HttpServlet {
                       HttpServletResponse response) throws ServletException, IOException {
         response.setStatus(HttpServletResponse.SC_OK);
 
-        JSONObject pageVariables = new JSONObject();
+        Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("url", signUpPageURL);
         pageVariables.put("login", "");
         pageVariables.put("password", "");
@@ -40,7 +43,7 @@ public class SignUpServletImpl extends HttpServlet {
         else
             pageVariables.put("answerFromServer", "");
 
-        response.getWriter().println(pageVariables.toString());
+        response.getWriter().println(PageGenerator.getPage("signUp.tml", pageVariables));
     }
 
     @Override
@@ -70,7 +73,7 @@ public class SignUpServletImpl extends HttpServlet {
             pageVariables.put("login", login);
             pageVariables.put("password", password);
             pageVariables.put("email", email);
-            pageVariables.put("url", SignUpServletImpl.signUpPageURL);
+            pageVariables.put("url", SignUpServlet.signUpPageURL);
             response.getWriter().println(pageVariables.toString());
             return;
         }

@@ -13,11 +13,11 @@ import org.json.simple.JSONObject;
 /**
  * Created by alexey on 26.09.14.
  */
-public class UserProfileServletImpl extends HttpServlet {
+public class UserProfileServlet extends HttpServlet {
     public static final String userProfilePageURL = "/profile";
     private AccountService accountService;
 
-    public UserProfileServletImpl(AccountService accountService) {
+    public UserProfileServlet(AccountService accountService) {
         this.accountService = accountService;
     }
 
@@ -27,13 +27,13 @@ public class UserProfileServletImpl extends HttpServlet {
         final String sessionId = request.getSession().getId();
 
         if (!accountService.isLoggedIn(sessionId)) {
-            response.sendRedirect(SignInServletImpl.signInPageURL);
+            response.sendRedirect(SignInServlet.signInPageURL);
             return;
         }
         final String exit = request.getParameter("exit");
         if (exit != null) {
             accountService.logOut(sessionId);
-            response.sendRedirect(SignInServletImpl.signInPageURL);
+            response.sendRedirect(SignInServlet.signInPageURL);
             return;
         }
 

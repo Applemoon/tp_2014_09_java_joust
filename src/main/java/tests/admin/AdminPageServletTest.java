@@ -1,11 +1,11 @@
 package tests.admin;
 
-import admin.AdminPageServletImpl;
+import admin.AdminPageServlet;
 import db.UserProfileImpl;
+import frontend.UserProfileServlet;
 import interfaces.AccountService;
 import interfaces.UserProfile;
 
-import interfaces.UserProfileServlet;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,15 +17,15 @@ import java.io.PrintWriter;
 
 import static org.mockito.Mockito.*;
 
-public class AdminPageServletImplTest {
+public class AdminPageServletTest {
 
-    private AdminPageServletImpl adminPageServlet;
+    private AdminPageServlet adminPageServlet;
 
     private AccountService mockAccountService = mock(AccountService.class);
     private HttpServletRequest mockRequest;
     private HttpServletResponse mockResponse;
     private HttpSession mockSession;
-    private PrintWriter mockPrintWrier;
+    private PrintWriter mockPrintWriter;
 
     private String adminUserLogin = "admin";
     private String ordinaryUserLogin = "user";
@@ -35,15 +35,15 @@ public class AdminPageServletImplTest {
 
     @Before
     public void setUp() throws Exception {
-        adminPageServlet = new AdminPageServletImpl(mockAccountService);
+        adminPageServlet = new AdminPageServlet(mockAccountService);
 
         mockRequest = mock(HttpServletRequest.class);
         mockResponse = mock(HttpServletResponse.class);
         mockSession = mock(HttpSession.class);
-        mockPrintWrier = mock(PrintWriter.class);
+        mockPrintWriter = mock(PrintWriter.class);
 
         when(mockRequest.getSession()).thenReturn(mockSession);
-        when(mockResponse.getWriter()).thenReturn(mockPrintWrier);
+        when(mockResponse.getWriter()).thenReturn(mockPrintWriter);
     }
 
     @Test
@@ -69,7 +69,7 @@ public class AdminPageServletImplTest {
         verify(mockResponse, atLeastOnce()).setContentType(anyString());
         verify(mockResponse, atLeastOnce()).setStatus(HttpServletResponse.SC_OK);
         verify(mockResponse, atLeastOnce()).getWriter();
-        verify(mockPrintWrier, atLeastOnce()).println(anyString());
+        verify(mockPrintWriter, atLeastOnce()).println(anyString());
         verify(mockAccountService, atLeastOnce()).getAmountOfRegisteredUsers();
         verify(mockAccountService, atLeastOnce()).getAmountOfUsersOnline();
     }

@@ -1,6 +1,6 @@
 package main;
 
-import admin.AdminPageServletImpl;
+import admin.AdminPageServlet;
 import base.Port;
 import frontend.*;
 import interfaces.*;
@@ -32,18 +32,18 @@ public class Main {
 
         GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService);
 
-        Servlet signIn = new SignInServletImpl(accountService);
-        Servlet signUp = new SignUpServletImpl(accountService);
-        Servlet profile = new UserProfileServletImpl(accountService);
-        Servlet admin = new AdminPageServletImpl(accountService);
+        Servlet signIn = new SignInServlet(accountService);
+        Servlet signUp = new SignUpServlet(accountService);
+        Servlet profile = new UserProfileServlet(accountService);
+        Servlet admin = new AdminPageServlet(accountService);
         WebSocketGameServlet webSocketGameServlet = new WebSocketGameServlet(gameMechanics,
                 webSocketService, accountService);
         Servlet frontendServlet = new FrontendServlet(accountService);
 
-        context.addServlet(new ServletHolder(signIn), SignInServletImpl.signInPageURL);
-        context.addServlet(new ServletHolder(signUp), SignUpServletImpl.signUpPageURL);
-        context.addServlet(new ServletHolder(profile), UserProfileServletImpl.userProfilePageURL);
-        context.addServlet(new ServletHolder(admin), AdminPageServletImpl.adminPageURL);
+        context.addServlet(new ServletHolder(signIn), SignInServlet.signInPageURL);
+        context.addServlet(new ServletHolder(signUp), SignUpServlet.signUpPageURL);
+        context.addServlet(new ServletHolder(profile), UserProfileServlet.userProfilePageURL);
+        context.addServlet(new ServletHolder(admin), AdminPageServlet.adminPageURL);
         context.addServlet(new ServletHolder(webSocketGameServlet), WebSocketGameServlet.gamePageURL);
         context.addServlet(new ServletHolder(frontendServlet), "/game.html");
 
