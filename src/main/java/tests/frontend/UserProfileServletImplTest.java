@@ -1,7 +1,6 @@
 package tests.frontend;
 
 import frontend.UserProfileServletImpl;
-import db.UserProfileImpl;
 import interfaces.AccountService;
 import interfaces.SignInServlet;
 import interfaces.UserProfile;
