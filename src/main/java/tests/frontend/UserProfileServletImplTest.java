@@ -1,4 +1,4 @@
-package tests.frontend;
+package frontend;
 
 import frontend.UserProfileServletImpl;
 import interfaces.AccountService;
