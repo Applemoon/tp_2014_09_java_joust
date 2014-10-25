@@ -32,7 +32,7 @@ public class GameWebSocket {
             JSONObject jsonStart = new JSONObject();
             jsonStart.put("status", "start");
             jsonStart.put("enemyName", user.getEnemyName());
-            session.getRemote().sendString(jsonStart.toJSONString());
+            session.getRemote().sendString(jsonStart.toString());
         } catch (Exception e) {
             System.out.print(e.toString());
         }

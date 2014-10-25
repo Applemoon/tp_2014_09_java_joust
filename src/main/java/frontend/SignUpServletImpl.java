@@ -1,25 +1,21 @@
 package frontend;
 
 import interfaces.AccountService;
-import interfaces.SignInServlet;
-import interfaces.SignUpServlet;
 import interfaces.UserProfile;
-
 import db.UserProfileImpl;
-import utils.PageGenerator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import org.json.simple.JSONObject;
 
 /**
  * Created by alexey on 13.09.14.
  */
-public class SignUpServletImpl extends HttpServlet implements SignUpServlet {
+public class SignUpServletImpl extends HttpServlet {
+    public static final String signUpPageURL = "/api/v1/auth/signup";
     private AccountService accountService;
 
     public SignUpServletImpl(AccountService accountService) {
@@ -31,7 +27,7 @@ public class SignUpServletImpl extends HttpServlet implements SignUpServlet {
                       HttpServletResponse response) throws ServletException, IOException {
         response.setStatus(HttpServletResponse.SC_OK);
 
-        Map<String, Object> pageVariables = new HashMap<>();
+        JSONObject pageVariables = new JSONObject();
         pageVariables.put("url", signUpPageURL);
         pageVariables.put("login", "");
         pageVariables.put("password", "");
@@ -44,7 +40,7 @@ public class SignUpServletImpl extends HttpServlet implements SignUpServlet {
         else
             pageVariables.put("answerFromServer", "");
 
-        response.getWriter().println(PageGenerator.getPage("signUp.tml", pageVariables));
+        response.getWriter().println(pageVariables.toString());
     }
 
     @Override
@@ -56,7 +52,7 @@ public class SignUpServletImpl extends HttpServlet implements SignUpServlet {
 
         response.setStatus(HttpServletResponse.SC_OK);
 
-        Map<String, Object> pageVariables = new HashMap<>();
+        JSONObject pageVariables = new JSONObject();
 
         if (login.isEmpty() || password.isEmpty() || email.isEmpty()) {
             pageVariables.put("answerFromServer", "All fields are required!");
@@ -64,7 +60,7 @@ public class SignUpServletImpl extends HttpServlet implements SignUpServlet {
             pageVariables.put("password", password);
             pageVariables.put("email", email);
             pageVariables.put("url", signUpPageURL);
-            response.getWriter().println(PageGenerator.getPage("signUp.tml", pageVariables));
+            response.getWriter().println(pageVariables.toString());
             return;
         }
 
@@ -74,8 +70,8 @@ public class SignUpServletImpl extends HttpServlet implements SignUpServlet {
             pageVariables.put("login", login);
             pageVariables.put("password", password);
             pageVariables.put("email", email);
-            pageVariables.put("url", SignUpServlet.signUpPageURL);
-            response.getWriter().println(PageGenerator.getPage("signUp.tml", pageVariables));
+            pageVariables.put("url", SignUpServletImpl.signUpPageURL);
+            response.getWriter().println(pageVariables.toString());
             return;
         }
 
@@ -84,6 +80,6 @@ public class SignUpServletImpl extends HttpServlet implements SignUpServlet {
         pageVariables.put("password", "");
         pageVariables.put("email", email);
         pageVariables.put("url", signUpPageURL);
-        response.getWriter().println(PageGenerator.getPage("signUp.tml", pageVariables));
+        response.getWriter().println(pageVariables.toString());
     }
 }

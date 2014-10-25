@@ -1,22 +1,19 @@
 package admin;
 
-import interfaces.UserProfileServlet;
+import frontend.UserProfileServletImpl;
 import interfaces.AccountService;
-import interfaces.AdminPageServlet;
 import interfaces.UserProfile;
-
-import utils.PageGenerator;
 import utils.TimeHelper;
 
+import org.json.simple.JSONObject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-public class AdminPageServletImpl extends HttpServlet implements AdminPageServlet {
+public class AdminPageServletImpl extends HttpServlet {
+    public static final String adminPageURL = "/admin";
     private AccountService accountService;
 
     public AdminPageServletImpl(AccountService accountService) {
@@ -31,7 +28,7 @@ public class AdminPageServletImpl extends HttpServlet implements AdminPageServle
         if (user != null && user.getLogin().equals("admin")) {
             response.setContentType("text/html; charset = utf-8");
             response.setStatus(HttpServletResponse.SC_OK);
-            Map<String, Object> pageVariables = new HashMap<>();
+            JSONObject pageVariables = new JSONObject();
             final String timeString = request.getParameter("shutdown");
             if (timeString != null) {
                 final int timeMS = Integer.valueOf(timeString);
@@ -43,10 +40,10 @@ public class AdminPageServletImpl extends HttpServlet implements AdminPageServle
 
             pageVariables.put("amountOfRegisteredUsers", accountService.getAmountOfRegisteredUsers());
             pageVariables.put("amountOfUsersOnline", accountService.getAmountOfUsersOnline());
-            response.getWriter().println(PageGenerator.getPage("admin.tml", pageVariables));
+            response.getWriter().println(pageVariables.toString());
             return;
         }
 
-        response.sendRedirect(UserProfileServlet.userProfilePageURL);
+        response.sendRedirect(UserProfileServletImpl.userProfilePageURL);
     }
 }
