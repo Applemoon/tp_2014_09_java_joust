@@ -1,4 +1,4 @@
-package tests.frontend;
+package frontend;
 
 import frontend.SignInServlet;
 import frontend.UserProfileServlet;

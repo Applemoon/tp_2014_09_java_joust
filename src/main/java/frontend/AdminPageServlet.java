@@ -1,4 +1,4 @@
-package admin;
+package frontend;
 
 import frontend.UserProfileServlet;
 import interfaces.AccountService;

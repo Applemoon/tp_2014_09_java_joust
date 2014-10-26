@@ -1,6 +1,6 @@
 package main;
 
-import admin.AdminPageServlet;
+import frontend.AdminPageServlet;
 import base.Port;
 import frontend.*;
 import interfaces.*;

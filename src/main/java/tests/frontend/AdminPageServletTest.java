@@ -1,7 +1,7 @@
-package tests.admin;
+package frontend;
 
-import admin.AdminPageServlet;
 import db.UserProfileImpl;
+import frontend.AdminPageServlet;
 import frontend.UserProfileServlet;
 import interfaces.AccountService;
 import interfaces.UserProfile;
