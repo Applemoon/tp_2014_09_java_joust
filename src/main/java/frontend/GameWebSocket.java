@@ -9,6 +9,8 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 @WebSocket
 public class GameWebSocket {
@@ -38,7 +40,7 @@ public class GameWebSocket {
         JSONObject json = new JSONObject();
         json.put("status", "start");
         json.put("enemyName", enemyName);
-//        json.put(); TODO кто первый ходит
+        json.put("firstPlayerTurn", gameSession.isFirstPlayerTurn());
         sendJSON(json);
     }
 
@@ -57,10 +59,13 @@ public class GameWebSocket {
     }
 
     @OnWebSocketMessage
-    public void onMessage(String data) {
-        // TODO делать разное в зависимости от data
-        System.out.println(data); // TODO убрать
-        final ClickResult clickResult = gameSession.clickCell(name, 1, 1); // TODO
+    public void onMessage(String data) throws ParseException {
+        final JSONObject json = (JSONObject) new JSONParser().parse(data);
+        final int x = Integer.parseInt(json.get("x").toString());
+        final int y = Integer.parseInt(json.get("y").toString());
+
+        final ClickResult clickResult = gameSession.clickCell(name, x, y);
+
         if (clickResult == ClickResult.WIN) {
             gameOver(true);
             final String enemyName = gameSession.getEnemyName(name);
@@ -80,10 +85,12 @@ public class GameWebSocket {
         webSocketService.addUserSocket(this);
     }
 
-//    @OnWebSocketClose
-//    public void onClose(int statusCode, String reason) {
-//
-//    }
+    @OnWebSocketClose
+    public void onClose(int statusCode, String reason) {
+        if (gameSession.isGameOver()) {
+            webSocketService.removeSocket(this);
+        }
+    }
 
     public void setGameSession(GameSession gameSession) {
         this.gameSession = gameSession;

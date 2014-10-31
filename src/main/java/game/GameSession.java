@@ -7,6 +7,7 @@ public class GameSession {
     private final GameUser second;
     private GameField gameField;
     private boolean firstPlayerTurn;
+    private boolean gameIsOver;
 
     public GameSession(String user1, String user2) {
         first = new GameUser(user1);
@@ -18,6 +19,7 @@ public class GameSession {
         gameField = new GameField();
 
         firstPlayerTurn = true;
+        gameIsOver = false;
     }
 
     public ClickResult clickCell(String userName, int x, int y) {
@@ -40,6 +42,9 @@ public class GameSession {
             else if (clickResult == ClickResult.SECOND_FILLED) {
                 firstPlayerTurn = true;
             }
+            else if (clickResult == ClickResult.WIN) {
+                gameIsOver = true;
+            }
 
             return clickResult;
         }
@@ -57,5 +62,13 @@ public class GameSession {
 
         // TODO БИГ ЭРРОР
         return "";
+    }
+
+    public boolean isFirstPlayerTurn() {
+        return firstPlayerTurn;
+    }
+
+    public boolean isGameOver() {
+        return gameIsOver;
     }
 }
