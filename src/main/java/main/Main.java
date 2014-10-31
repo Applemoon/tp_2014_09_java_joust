@@ -5,7 +5,6 @@ import base.Port;
 import frontend.*;
 import interfaces.*;
 import base.WebSocketServiceImpl;
-import base.GameMechanicsImpl;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -30,14 +29,11 @@ public class Main {
         AccountService accountService = new AccountServiceImpl();
         WebSocketService webSocketService = new WebSocketServiceImpl();
 
-        GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService);
-
         Servlet signIn = new SignInServletImpl(accountService);
         Servlet signUp = new SignUpServletImpl(accountService);
         Servlet profile = new UserProfileServletImpl(accountService);
         Servlet admin = new AdminPageServletImpl(accountService);
-        WebSocketGameServlet webSocketGameServlet = new WebSocketGameServlet(gameMechanics,
-                webSocketService, accountService);
+        WebSocketGameServlet webSocketGameServlet = new WebSocketGameServlet(webSocketService, accountService);
         Servlet frontendServlet = new FrontendServlet(accountService);
 
         context.addServlet(new ServletHolder(signIn), SignInServlet.signInPageURL);
@@ -56,11 +52,5 @@ public class Main {
         server.setHandler(handlers);
 
         server.start();
-        gameMechanics.run();
     }
 }
-
-/*
-    TODO
-    игра закончилась -> F5 -> косяки
- */

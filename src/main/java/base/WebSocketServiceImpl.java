@@ -1,38 +1,50 @@
 package base;
 
-import base.GameUser;
 import frontend.GameWebSocket;
+import game.GameSession;
 import interfaces.WebSocketService;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class WebSocketServiceImpl implements WebSocketService {
-    private Map<String, GameWebSocket> userSockets = new HashMap<>();
+    private Map<String, GameWebSocket> userSockets = new HashMap<>(); // TODO сделать очистку карты
+    private Queue<String> waitersQueue = new LinkedList<String>();
 
     @Override
-    public void addUser(GameWebSocket user) {
-        userSockets.put(user.getMyName(), user);
+    public void addUserSocket(GameWebSocket userSocket) {
+        final String userName = userSocket.getName();
+        userSockets.put(userName, userSocket);
+
+        if (!waitersQueue.isEmpty()) {
+            final String secondUserName = waitersQueue.remove();
+            if (userName.equals(secondUserName)) {
+                waitersQueue.add(userName);
+                return;
+            }
+            startGame(userName, secondUserName);
+            return;
+        }
+        waitersQueue.add(userName);
     }
 
     @Override
-    public void notifyMyNewScore(GameUser user) {
-        userSockets.get(user.getMyName()).setMyScore(user);
+    public void notifyGameOver(String user, boolean win) {
+        userSockets.get(user).gameOver(win);
     }
 
     @Override
-    public void notifyEnemyNewScore(GameUser user) {
-        userSockets.get(user.getMyName()).setEnemyScore(user);
+    public void removeSocket(GameWebSocket userSocket) {
+        userSockets.remove(userSocket.getName());
     }
 
-    @Override
-    public void notifyStartGame(GameUser user) {
-        GameWebSocket gameWebSocket = userSockets.get(user.getMyName());
-        gameWebSocket.startGame(user);
+    private void startGame(String first, String second) {
+        GameSession gameSession = new GameSession(first, second);
+
+        userSockets.get(first).setGameSession(gameSession);
+        userSockets.get(second).setGameSession(gameSession);
+
+        userSockets.get(first).startGame(second);
+        userSockets.get(second).startGame(first);
     }
 
-    @Override
-    public void notifyGameOver(GameUser user, boolean win) {
-        userSockets.get(user.getMyName()).gameOver(user, win);
-    }
 }

@@ -50,8 +50,7 @@
 
         };
 
-        function sendMessage() {
-            var message = "";
+        function sendMessage(message) {
             ws.send(message);
         }
 
@@ -76,7 +75,10 @@
         </div>
 
         <form name="gamePlay" action="">
-            <input type="button" name="submit" value="Press to win!" onclick="sendMessage();"/>
+            <input type="button" name="submit" value='0, 1' onclick="sendMessage('0, 1');"/>
+            <input type="button" name="submit" value='1, 1' onclick="sendMessage('1, 1');"/><br>
+            <input type="button" name="submit" value='0, 0' onclick="sendMessage('0, 0');"/>
+            <input type="button" name="submit" value='0, 1' onclick="sendMessage('0, 1');"/>
         </form>
     </div>
 
