@@ -39,8 +39,7 @@ public class SignUpServletImpl extends HttpServlet implements SignUpServlet {
 
         final String sessionId = request.getSession().getId();
         if (accountService.isLoggedIn(sessionId))
-            // TODO написать пограмотнее
-            pageVariables.put("answerFromServer", "You are logged as " + accountService.getUserProfile(sessionId).getLogin() + ".");
+            pageVariables.put("answerFromServer", "You are logged in as " + accountService.getUserProfile(sessionId).getLogin() + ".");
         else
             pageVariables.put("answerFromServer", "");
 
