@@ -11,4 +11,4 @@
 * Диденко Яков ???, kogotto, kogotto@gmail.com
 
 Подробное о проекте можно прочесть на сайте [Технопарка] [1]
-[1]: tp.mail.ru
+[1]: https://tech-mail.ru/
