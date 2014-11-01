@@ -3,18 +3,15 @@ package game;
 import base.ClickResult;
 
 public class GameSession {
-    private final GameUser first;
-    private final GameUser second;
+    private final String first;
+    private final String second;
     private GameField gameField;
     private boolean firstPlayerTurn;
     private boolean gameIsOver;
 
     public GameSession(String user1, String user2) {
-        first = new GameUser(user1);
-//        first.setEnemyName(user2);
-
-        second = new GameUser(user2);
-//        second.setEnemyName(user1);
+        first = user1;
+        second = user2;
 
         gameField = new GameField();
 
@@ -24,17 +21,18 @@ public class GameSession {
 
     public ClickResult clickCell(String userName, int x, int y) {
         boolean firstUser = true;
-        if (first.getName().equals(userName)) {
+        if (first.equals(userName)) {
             firstUser = true;
         }
-        else if (second.getName().equals(userName)) {
+        else if (second.equals(userName)) {
             firstUser = false;
         }
         else {
-            // TODO БИГ ЭРРОР
+            System.err.println("GameSession.getEnemyName(): wrong 'userName' value");
+            return ClickResult.NO_RESULT;
         }
 
-        if (firstPlayerTurn && userName.equals(first.getName())) {
+        if (firstPlayerTurn && userName.equals(first)) {
             final ClickResult clickResult = gameField.clickCell(firstUser, x, y);
             if (clickResult == ClickResult.FIRST_FILLED) {
                 firstPlayerTurn = false;
@@ -53,14 +51,14 @@ public class GameSession {
     }
 
     public String getEnemyName(String userName) {
-        if (first.getName().equals(userName)) {
-            return second.getName();
+        if (first.equals(userName)) {
+            return second;
         }
-        else if (second.getName().equals(userName)) {
-            return first.getName();
+        else if (second.equals(userName)) {
+            return first;
         }
 
-        // TODO БИГ ЭРРОР
+        System.err.println("GameSession.getEnemyName(): wrong 'userName' value");
         return "";
     }
 
