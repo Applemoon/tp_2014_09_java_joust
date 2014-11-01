@@ -16,7 +16,9 @@ import base.ClickResult;
  */
 public class GameField {
     private static final int fieldSize = 5; // Для ровного шестиугольного поля только нечетные значения
+    private static final int chainToWin = 3;
     private GameCell[][] cells = new GameCell[fieldSize][fieldSize];
+    private enum Direction { VERTICAL, RIGHT_UP, LEFT_UP };
 
     public GameField() {
         for (int i = 0; i < fieldSize; i++) {
@@ -27,14 +29,7 @@ public class GameField {
     }
 
     public ClickResult clickCell(boolean firstPlayer, int x, int y) {
-        final int smallEdge = (fieldSize - 3)/2;
-        final int bigEdge = (3*fieldSize - 1)/2;
-        if (x < 0              ||
-            x >= fieldSize     ||
-            y < 0              ||
-            y >= fieldSize     ||
-            x + y <= smallEdge ||
-            x + y >= bigEdge) {
+        if (validCoord(x, y)) {
             return ClickResult.NO_RESULT;
         }
 
@@ -62,8 +57,75 @@ public class GameField {
     }
 
     private ClickResult checkWin(int x, int y) {
-        // TODO реализовать проверку на победу походившего
+        // TODO проверить
+        final boolean firstPlayer = (cells[x][y].getState() == GameCell.CellState.FILLED_FIRST);
+        int step = 1;
+        int chain = 1;
+        int curX = x;
+        int curY = y;
+        Direction direction = Direction.VERTICAL;
+
+        while (true) {
+            switch (direction) {
+                case VERTICAL:
+                    curY += step;
+                    break;
+                case RIGHT_UP:
+                    curX += step;
+                    break;
+                case LEFT_UP:
+                    curX -= step;
+                    curY += step;
+                    break;
+            }
+
+            if (validCoord(curX, curY) &&
+                    (firstPlayer && cells[curX][curY].getState() == GameCell.CellState.FILLED_FIRST) ||
+                    (!firstPlayer && cells[curX][curY].getState() == GameCell.CellState.FILLED_SECOND)) {
+                chain++;
+
+                if (chain >= chainToWin) {
+                    return ClickResult.WIN;
+                }
+                continue;
+            }
+
+            if (step == 1) {
+                step = -1;
+                curX = x;
+                curY = y;
+                continue;
+            }
+
+            direction = nextDirection(direction);
+            if (direction == Direction.VERTICAL) {
+                break;
+            }
+        }
+
         return ClickResult.NO_RESULT;
+    }
+
+    private Direction nextDirection(Direction direction) {
+        switch (direction) {
+            case VERTICAL:
+                return Direction.RIGHT_UP;
+            case RIGHT_UP:
+                return Direction.LEFT_UP;
+        }
+
+        return Direction.VERTICAL;
+    }
+
+    private boolean validCoord(int x, int y) {
+        final int smallEdge = (fieldSize - 3)/2;
+        final int bigEdge = (3*fieldSize - 1)/2;
+        return (x < 0              ||
+                x >= fieldSize     ||
+                y < 0              ||
+                y >= fieldSize     ||
+                x + y <= smallEdge ||
+                x + y >= bigEdge);
     }
 }
 
