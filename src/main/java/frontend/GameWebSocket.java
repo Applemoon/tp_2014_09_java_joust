@@ -36,6 +36,7 @@ public class GameWebSocket {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public void startGame(String enemyName) {
         JSONObject json = new JSONObject();
         json.put("status", "start");
@@ -44,6 +45,7 @@ public class GameWebSocket {
         sendJSON(json);
     }
 
+    @SuppressWarnings("unchecked")
     public void gameOver(boolean win) {
         JSONObject json = new JSONObject();
         json.put("status", "finish");
@@ -51,6 +53,7 @@ public class GameWebSocket {
         sendJSON(json);
     }
 
+    @SuppressWarnings("unchecked")
     public void fillCell(boolean isFirst) {
         JSONObject json = new JSONObject();
         json.put("status", "fillCell");

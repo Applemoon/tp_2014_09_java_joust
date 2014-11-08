@@ -11,9 +11,6 @@ import java.io.IOException;
 public interface SignUpServlet {
     static final String signUpPageURL = "/api/v1/auth/signup";
 
-    void doGet(HttpServletRequest request,
-                  HttpServletResponse response) throws ServletException, IOException;
-
     void doPost(HttpServletRequest request,
                   HttpServletResponse response) throws ServletException, IOException;
 }

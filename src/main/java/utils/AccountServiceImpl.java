@@ -38,7 +38,7 @@ public class AccountServiceImpl implements AccountService {
     public boolean signUp(UserProfile user) {
         if (users.containsKey(user.getLogin()))
             return false;
-        users.put(user.getLogin(), user);
+        users.put(user.getLogin(), user); // TODO прикрутить БД
         return true;
     }
 
