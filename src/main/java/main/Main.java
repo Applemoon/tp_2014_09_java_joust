@@ -31,14 +31,12 @@ public class Main {
 
         Servlet signIn = new SignInServletImpl(accountService);
         Servlet signUp = new SignUpServletImpl(accountService);
-        Servlet profile = new UserProfileServletImpl(accountService);
         Servlet admin = new AdminPageServletImpl(accountService);
         WebSocketGameServlet webSocketGameServlet = new WebSocketGameServlet(webSocketService, accountService);
         Servlet frontendServlet = new FrontendServlet(accountService);
 
         context.addServlet(new ServletHolder(signIn), SignInServlet.signInPageURL);
         context.addServlet(new ServletHolder(signUp), SignUpServlet.signUpPageURL);
-        context.addServlet(new ServletHolder(profile), UserProfileServlet.userProfilePageURL);
         context.addServlet(new ServletHolder(admin), AdminPageServlet.adminPageURL);
         context.addServlet(new ServletHolder(webSocketGameServlet), WebSocketGameServlet.gamePageURL);
         context.addServlet(new ServletHolder(frontendServlet), "/game.html");
