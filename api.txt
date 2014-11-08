@@ -1,0 +1,92 @@
+API сервера
+Регистрация
+Request (ajax):
+{
+    "login" : login,
+    "password" : pswd,
+    "email" : email
+}
+
+Response:
+{
+    "status" : 200
+}
+
+{
+    "status" : 403,
+    "msg" : ["wrong_data"|"already_signed_up"]
+}
+
+
+Авторизация
+Request (ajax):
+{
+    "login" : login,
+    "password" : pswd
+}
+
+Response:
+{
+    "status" : 200,
+    "email" : email
+}
+{
+    "status" : 403,
+    "msg" : ["wrong_data"|"already_signed_in"]
+}
+
+Выход из профиля
+Request:
+{
+    "login" : login
+}
+
+Response:
+{
+    "status" : [200|403]
+}
+
+Игра
+Request (сокетное соединение):
+{
+    // Целочисленные координаты нажатой клетки
+        "x" : x,
+        "y" : y,
+        "player" : player_name
+}
+
+Response:
+{
+    // Целочисленные координаты нажатой клетки
+    "x" : x,
+    "y" : y,
+    "player" : player_name,
+    "win" : [0|1]
+}
+
+
+===
+to server:
+{
+    // Координаты нажатого шестиугольника на поле
+    "x" : x,
+    "y" : y,
+    "player" : player_name
+}
+
+from server:
+{
+    "type" : "start"
+    "enemy" : enemy_name
+    "player_turn" : [1,2]
+}
+{
+    "type" : "turn",
+    "x" : x,
+    "y" : y
+}
+{
+    "type" : "win",
+    "winner" : winner
+}
+
