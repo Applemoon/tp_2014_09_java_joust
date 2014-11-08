@@ -46,27 +46,8 @@ Response:
     "status" : [200|403]
 }
 
-Игра
-Request (сокетное соединение):
-{
-    // Целочисленные координаты нажатой клетки
-        "x" : x,
-        "y" : y,
-        "player" : player_name
-}
-
-Response:
-{
-    // Целочисленные координаты нажатой клетки
-    "x" : x,
-    "y" : y,
-    "player" : player_name,
-    "win" : [0|1]
-}
-
-
-===
-to server:
+Игра (сокетное соединение)
+To server:
 {
     // Координаты нажатого шестиугольника на поле
     "x" : x,
@@ -74,11 +55,11 @@ to server:
     "player" : player_name
 }
 
-from server:
+From server:
 {
     "type" : "start"
     "enemy" : enemy_name
-    "player_turn" : [1,2]
+    "player_turn" : [1|2]
 }
 {
     "type" : "turn",
