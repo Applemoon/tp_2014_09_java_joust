@@ -57,7 +57,6 @@ public class GameField {
     }
 
     private ClickResult checkWin(int x, int y) {
-        // TODO проверить
         final boolean firstPlayer = (cells[x][y].getState() == GameCell.CellState.FILLED_FIRST);
         int step = 1;
         int chain = 1;
