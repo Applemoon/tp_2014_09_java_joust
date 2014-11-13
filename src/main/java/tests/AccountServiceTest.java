@@ -79,11 +79,11 @@ public class AccountServiceTest extends TestCase {
         String sessionId = getSessionId();
         accountService.signIn(sessionId, user.getLogin(), user.getPass());
 
-        final boolean expectedSuccessIsLoggedInResult = accountService.isLoggedIn(sessionId);
+        final boolean expectedSuccessIsLoggedInResult = accountService.iSignedIn(sessionId);
         assertTrue(expectedSuccessIsLoggedInResult);
 
         accountService.logOut(sessionId);
-        final boolean expectedFailIsLoggedInResult = accountService.isLoggedIn(sessionId);
+        final boolean expectedFailIsLoggedInResult = accountService.iSignedIn(sessionId);
         assertFalse(expectedFailIsLoggedInResult);
     }
 
@@ -93,13 +93,13 @@ public class AccountServiceTest extends TestCase {
         accountService.signUp(user);
 
         String sessionId = getSessionId();
-        assertFalse(accountService.isLoggedIn(sessionId));
+        assertFalse(accountService.iSignedIn(sessionId));
 
         accountService.signIn(sessionId, user.getLogin(), user.getLogin());
-        assertTrue(accountService.isLoggedIn(sessionId));
+        assertTrue(accountService.iSignedIn(sessionId));
 
         accountService.logOut(sessionId);
-        assertFalse(accountService.isLoggedIn(sessionId));
+        assertFalse(accountService.iSignedIn(sessionId));
     }
 
     @Test

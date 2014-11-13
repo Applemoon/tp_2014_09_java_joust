@@ -31,15 +31,15 @@ public class SignInServletImpl extends HttpServlet implements SignInServlet {
         final String sessionId = request.getSession().getId();
         JSONObject responseJson = new JSONObject();
 
-        if (login.isEmpty() || password.isEmpty()) {
+        if (login.isEmpty() || password.isEmpty() || !accountService.validLoginAndPass(login, password)) {
             responseJson.put("status", 403);
             responseJson.put("msg", "wrong_data");
         } else if (accountService.signIn(sessionId, login, password)) {
-            responseJson.put("status", 403);
-            responseJson.put("msg", "already_signed_in");
-        } else {
             responseJson.put("status", 200);
             responseJson.put("email", email);
+        } else {
+            responseJson.put("status", 403);
+            responseJson.put("msg", "already_signed_in");
         }
 
         response.setStatus(HttpServletResponse.SC_OK);

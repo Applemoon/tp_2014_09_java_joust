@@ -23,8 +23,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public boolean validLoginAndPass(String login, String password) {
+        return (users.containsKey(login) && users.get(login).getPass().equals(password));
+    }
+
+    @Override
     public boolean signIn(String sessionId, String login, String password) {
-        if (!isLoggedIn(sessionId) && users.containsKey(login) && users.get(login).getPass().equals(password)) {
+        if (!iSignedIn(sessionId)) {
             if (userSessions.containsKey(login))
                 logOut(userSessions.get(login));
             sessions.put(sessionId, login);
@@ -44,20 +49,20 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void logOut(String sessionId) {
-        if (isLoggedIn(sessionId)) {
+        if (iSignedIn(sessionId)) {
             userSessions.remove(sessions.get(sessionId));
             sessions.remove(sessionId);
         }
     }
 
     @Override
-    public boolean isLoggedIn(String sessionId) {
+    public boolean iSignedIn(String sessionId) {
         return sessions.containsKey(sessionId);
     }
 
     @Override
     public UserProfile getUserProfile(String sessionId) {
-        if (isLoggedIn(sessionId))
+        if (iSignedIn(sessionId))
             return users.get(sessions.get(sessionId));
         return null;
     }
