@@ -16,20 +16,20 @@ public class WebSocketServiceImpl implements WebSocketService {
         userSockets.put(userName, userSocket);
 
         if (!waitersQueue.isEmpty()) {
-            final String secondUserName = waitersQueue.remove();
-            if (userName.equals(secondUserName)) {
+            final String waiterName = waitersQueue.remove();
+            if (userName.equals(waiterName)) {
                 waitersQueue.add(userName);
                 return;
             }
-            startGame(userName, secondUserName);
+            startGame(waiterName, userName);
             return;
         }
         waitersQueue.add(userName);
     }
 
     @Override
-    public void notifyGameOver(String user, boolean win) {
-        userSockets.get(user).gameOver(win);
+    public void notifyGameOver(String user, String winner) {
+        userSockets.get(user).gameOverMessage(winner);
     }
 
     @Override
@@ -43,8 +43,9 @@ public class WebSocketServiceImpl implements WebSocketService {
         userSockets.get(first).setGameSession(gameSession);
         userSockets.get(second).setGameSession(gameSession);
 
-        userSockets.get(first).startGame(second);
-        userSockets.get(second).startGame(first);
+        // Первым ходит тот игрок, который дольше ждет игру
+        userSockets.get(first).startGameMessage(second, true);
+        userSockets.get(second).startGameMessage(first, false);
     }
 
 }

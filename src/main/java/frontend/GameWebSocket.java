@@ -37,27 +37,33 @@ public class GameWebSocket {
     }
 
     @SuppressWarnings("unchecked")
-    public void startGame(String enemyName) {
+    public void startGameMessage(String enemyName, boolean hasFirstTurn) {
         JSONObject json = new JSONObject();
-        json.put("status", "start");
-        json.put("enemyName", enemyName);
-        json.put("firstPlayerTurn", gameSession.isFirstPlayerTurn());
+        json.put("type", "start");
+        json.put("enemy", enemyName);
+        if (hasFirstTurn) {
+            json.put("player_turn", 1);
+        } else {
+            json.put("player_turn", 2);
+        }
         sendJSON(json);
     }
 
     @SuppressWarnings("unchecked")
-    public void gameOver(boolean win) {
+    public void gameOverMessage(String winner) {
         JSONObject json = new JSONObject();
-        json.put("status", "finish");
-        json.put("win", win);
+        json.put("type", "win");
+        json.put("winner", winner);
         sendJSON(json);
     }
 
     @SuppressWarnings("unchecked")
-    public void fillCell(boolean isFirst) {
+    public void fillCellMessage(int x, int y, String player) {
         JSONObject json = new JSONObject();
-        json.put("status", "fillCell");
-        json.put("player", isFirst);
+        json.put("type", "turn");
+        json.put("x", x);
+        json.put("y", y);
+        json.put("player", player);
         sendJSON(json);
     }
 
@@ -69,16 +75,24 @@ public class GameWebSocket {
 
         final ClickResult clickResult = gameSession.clickCell(name, x, y);
 
-        if (clickResult == ClickResult.WIN) {
-            gameOver(true);
-            final String enemyName = gameSession.getEnemyName(name);
-            webSocketService.notifyGameOver(enemyName, false);
-        }
-        else if (clickResult == ClickResult.FIRST_FILLED) {
-            fillCell(true);
-        }
-        else if (clickResult == ClickResult.SECOND_FILLED) {
-            fillCell(false);
+        switch (clickResult) {
+            case WIN: {
+                gameOverMessage(name);
+                final String enemyName = gameSession.getEnemyName(name);
+                webSocketService.notifyGameOver(enemyName, name);
+                return;
+            }
+            case FIRST_FILLED: { // TODO объединить
+                fillCellMessage(x, y, name);
+                return;
+            }
+            case SECOND_FILLED: {
+                fillCellMessage(x, y, name);
+                return;
+            }
+            case NO_RESULT:
+            default:
+                break;
         }
     }
 

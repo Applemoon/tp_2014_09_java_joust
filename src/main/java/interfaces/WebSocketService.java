@@ -6,7 +6,7 @@ public interface WebSocketService {
 
     void addUserSocket(GameWebSocket user);
 
-    void notifyGameOver(String user, boolean win);
+    void notifyGameOver(String user, String winner);
 
     void removeSocket(GameWebSocket userSocket);
 }

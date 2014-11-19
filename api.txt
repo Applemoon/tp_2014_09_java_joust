@@ -52,8 +52,7 @@ To server:
 {
     // Координаты нажатого шестиугольника на поле
     "x" : x,
-    "y" : y,
-    "player" : player_name
+    "y" : y
 }
 
 From server:
@@ -65,7 +64,8 @@ From server:
 {
     "type" : "turn",
     "x" : x,
-    "y" : y
+    "y" : y,
+    "player" : player_name
 }
 {
     "type" : "win",
