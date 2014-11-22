@@ -37,7 +37,7 @@ Response:
 Выход из профиля
 Request:
 {
-    "login" : login
+    // "login" : login - не нужно!
 }
 
 Response:

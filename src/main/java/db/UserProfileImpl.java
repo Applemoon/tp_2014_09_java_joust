@@ -4,6 +4,7 @@ import interfaces.UserProfile;
 
 /**
  * Created by alexey on 13.09.14.
+ * TODO удалить класс, прикрутить БД
  */
 public class UserProfileImpl implements UserProfile {
     private final String login;

@@ -18,7 +18,7 @@ public class GameField {
     private static final int fieldSize = 5; // Для ровного шестиугольного поля только нечетные значения
     private static final int chainToWin = 3;
     private GameCell[][] cells = new GameCell[fieldSize][fieldSize];
-    private enum Direction { VERTICAL, RIGHT_UP, LEFT_UP };
+    private enum Direction { VERTICAL, RIGHT_UP, LEFT_UP }
 
     public GameField() {
         for (int i = 0; i < fieldSize; i++) {
@@ -50,10 +50,7 @@ public class GameField {
             return checkWinResult;
         }
 
-        if (firstPlayer) {
-            return ClickResult.FIRST_FILLED;
-        }
-        return ClickResult.SECOND_FILLED;
+        return ClickResult.FILLED;
     }
 
     private ClickResult checkWin(int x, int y) {

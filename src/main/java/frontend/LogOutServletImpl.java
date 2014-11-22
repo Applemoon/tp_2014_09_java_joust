@@ -24,7 +24,6 @@ public class LogOutServletImpl extends HttpServlet implements LogOutServlet {
     @SuppressWarnings("unchecked")
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        final String login = request.getParameter("login"); // TODO нужен?
         final String sessionId = request.getSession().getId();
 
         JSONObject responseJson = new JSONObject();

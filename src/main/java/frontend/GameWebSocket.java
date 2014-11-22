@@ -76,20 +76,14 @@ public class GameWebSocket {
         final ClickResult clickResult = gameSession.clickCell(name, x, y);
 
         switch (clickResult) {
-            case WIN: {
+            case WIN:
                 gameOverMessage(name);
                 final String enemyName = gameSession.getEnemyName(name);
                 webSocketService.notifyGameOver(enemyName, name);
                 return;
-            }
-            case FIRST_FILLED: { // TODO объединить
+            case FILLED:
                 fillCellMessage(x, y, name);
                 return;
-            }
-            case SECOND_FILLED: {
-                fillCellMessage(x, y, name);
-                return;
-            }
             case NO_RESULT:
             default:
                 break;

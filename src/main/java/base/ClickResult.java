@@ -5,7 +5,6 @@ package base;
  */
 public enum ClickResult {
     NO_RESULT,
-    FIRST_FILLED,
-    SECOND_FILLED,
+    FILLED,
     WIN
 }

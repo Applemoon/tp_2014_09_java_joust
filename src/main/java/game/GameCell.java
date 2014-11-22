@@ -4,7 +4,7 @@ package game;
  * Created by applemoon on 30.10.14.
  */
 public class GameCell {
-    public enum CellState { FILLED_FIRST, FILLED_SECOND, EMPTY;}
+    public enum CellState { FILLED_FIRST, FILLED_SECOND, EMPTY}
     private CellState state;
 
     public GameCell() {

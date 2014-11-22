@@ -20,25 +20,11 @@ public class GameSession {
     }
 
     public ClickResult clickCell(String userName, int x, int y) {
-        boolean firstUser = true;
-        if (first.equals(userName)) {
-            firstUser = true;
-        }
-        else if (second.equals(userName)) {
-            firstUser = false;
-        }
-        else {
-            System.err.println("GameSession.getEnemyName(): wrong 'userName' value");
-            return ClickResult.NO_RESULT;
-        }
-
         if (firstPlayerTurn && userName.equals(first)) {
+            final boolean firstUser = first.equals(userName);
             final ClickResult clickResult = gameField.clickCell(firstUser, x, y);
-            if (clickResult == ClickResult.FIRST_FILLED) {
-                firstPlayerTurn = false;
-            }
-            else if (clickResult == ClickResult.SECOND_FILLED) {
-                firstPlayerTurn = true;
+            if (clickResult == ClickResult.FILLED) {
+                firstPlayerTurn = !firstPlayerTurn;
             }
             else if (clickResult == ClickResult.WIN) {
                 gameIsOver = true;
@@ -60,10 +46,6 @@ public class GameSession {
 
         System.err.println("GameSession.getEnemyName(): wrong 'userName' value");
         return "";
-    }
-
-    public boolean isFirstPlayerTurn() {
-        return firstPlayerTurn;
     }
 
     public boolean isGameOver() {
