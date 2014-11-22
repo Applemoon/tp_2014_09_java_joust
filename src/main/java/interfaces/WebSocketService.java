@@ -8,5 +8,7 @@ public interface WebSocketService {
 
     void notifyGameOver(String user, String winner);
 
+    void notifyCellFilled(String user, int x, int y, String nameFilled);
+
     void removeSocket(GameWebSocket userSocket);
 }

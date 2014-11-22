@@ -33,6 +33,11 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     @Override
+    public void notifyCellFilled(String user, int x, int y, String nameFilled) {
+        userSockets.get(user).fillCellMessage(x, y, nameFilled);
+    }
+
+    @Override
     public void removeSocket(GameWebSocket userSocket) {
         userSockets.remove(userSocket.getName());
     }

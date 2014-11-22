@@ -59,7 +59,7 @@ public class GameWebSocket {
     }
 
     @SuppressWarnings("unchecked")
-    void fillCellMessage(int x, int y, String player) {
+    public void fillCellMessage(int x, int y, String player) {
         JSONObject json = new JSONObject();
         json.put("type", "turn");
         json.put("x", x);
@@ -74,18 +74,17 @@ public class GameWebSocket {
         final JSONObject json = (JSONObject) new JSONParser().parse(data);
         final int x = Integer.parseInt(json.get("x").toString());
         final int y = Integer.parseInt(json.get("y").toString());
-
         final ClickResult clickResult = gameSession.clickCell(name, x, y);
+        final String enemyName = gameSession.getEnemyName(name);
 
         switch (clickResult) {
             case WIN:
                 gameOverMessage(name);
-                final String enemyName = gameSession.getEnemyName(name);
                 webSocketService.notifyGameOver(enemyName, name);
                 return;
             case FILLED:
                 fillCellMessage(x, y, name);
-                // TODO отправлять сообщение врагу
+                webSocketService.notifyCellFilled(enemyName, x, y, name);
                 return;
             case NO_RESULT:
             default:

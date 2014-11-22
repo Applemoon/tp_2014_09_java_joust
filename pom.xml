@@ -22,8 +22,8 @@
         </plugins>
     </build>
 
-    <groupId>L1.2</groupId>
-    <artifactId>L1.2</artifactId>
+    <groupId>HZ_server</groupId>
+    <artifactId>HZ_server</artifactId>
     <version>1.0</version>
 
     <dependencies>

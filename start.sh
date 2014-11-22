@@ -1,2 +1,2 @@
 #!/bin/sh
-java -cp L1.2-1.0-jar-with-dependencies.jar main.Main 8080
+java -cp HZ_server-1.0-jar-with-dependencies.jar main.Main
