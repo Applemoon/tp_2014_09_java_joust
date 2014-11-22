@@ -14,7 +14,7 @@ import java.io.IOException;
  * @author alexey
  */
 public class SignInServletImpl extends HttpServlet implements SignInServlet {
-    private AccountService accountService;
+    private final AccountService accountService;
 
     public SignInServletImpl(AccountService accountService) {
         this.accountService = accountService;
@@ -34,7 +34,7 @@ public class SignInServletImpl extends HttpServlet implements SignInServlet {
         if (login.isEmpty() || password.isEmpty() || !accountService.validLoginAndPass(login, password)) {
             responseJson.put("status", 403);
             responseJson.put("msg", "wrong_data");
-        } else if (accountService.signIn(sessionId, login, password)) {
+        } else if (accountService.signIn(sessionId, login)) {
             responseJson.put("status", 200);
             responseJson.put("email", email);
         } else {

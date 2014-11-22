@@ -2,19 +2,12 @@ package utils;
 
 import java.lang.reflect.Field;
 
-public class ReflectionHelper {
-    public static Object createIntance(String className) {
+class ReflectionHelper {
+    public static Object createInstance(String className) {
         try {
             return Class.forName(className).newInstance();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IllegalArgumentException | SecurityException | InstantiationException |
+                 IllegalAccessException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return null;
@@ -35,13 +28,8 @@ public class ReflectionHelper {
             }
 
             field.setAccessible(false);
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (SecurityException | NoSuchFieldException | IllegalArgumentException |
+                 IllegalAccessException e) {
             e.printStackTrace();
         }
     }

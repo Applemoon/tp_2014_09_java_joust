@@ -12,11 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by alexey on 13.09.14.
- */
 public class SignUpServletImpl extends HttpServlet implements SignUpServlet {
-    private AccountService accountService;
+    private final AccountService accountService;
 
     public SignUpServletImpl(AccountService accountService) {
         this.accountService = accountService;

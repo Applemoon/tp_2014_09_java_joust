@@ -17,7 +17,7 @@ import base.ClickResult;
 public class GameField {
     private static final int fieldSize = 5; // Для ровного шестиугольного поля только нечетные значения
     private static final int chainToWin = 3;
-    private GameCell[][] cells = new GameCell[fieldSize][fieldSize];
+    private final GameCell[][] cells = new GameCell[fieldSize][fieldSize];
     private enum Direction { VERTICAL, RIGHT_UP, LEFT_UP }
 
     public GameField() {

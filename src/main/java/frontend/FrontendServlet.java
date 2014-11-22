@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FrontendServlet extends HttpServlet {
-    private AccountService accountService;
+    private final AccountService accountService;
 
     public FrontendServlet(AccountService accountService) {
         this.accountService = accountService;

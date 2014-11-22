@@ -44,7 +44,7 @@ public class AccountServiceTest extends TestCase {
         final boolean expectedSuccessSignUpResultResult = accountService.signUp(user);
         assertTrue(expectedSuccessSignUpResultResult);
 
-        final boolean expectedSuccessSignInResult = accountService.signIn("sessionId", user.getLogin(), user.getPass());
+        final boolean expectedSuccessSignInResult = accountService.signIn("sessionId", user.getLogin());
         assertTrue(expectedSuccessSignInResult);
 
 
@@ -52,7 +52,7 @@ public class AccountServiceTest extends TestCase {
         assertEquals(before + 1, amountOfUsersOnline);
 
 
-        boolean expectedFailSignInResult = accountService.signIn("sessionId", user.getLogin(), user.getPass());
+        boolean expectedFailSignInResult = accountService.signIn("sessionId", user.getLogin());
         assertFalse(expectedFailSignInResult);
 
         amountOfUsersOnline = accountService.getAmountOfUsersOnline();
@@ -77,7 +77,7 @@ public class AccountServiceTest extends TestCase {
         accountService.signUp(user);
 
         String sessionId = getSessionId();
-        accountService.signIn(sessionId, user.getLogin(), user.getPass());
+        accountService.signIn(sessionId, user.getLogin());
 
         final boolean expectedSuccessIsLoggedInResult = accountService.iSignedIn(sessionId);
         assertTrue(expectedSuccessIsLoggedInResult);
@@ -95,7 +95,7 @@ public class AccountServiceTest extends TestCase {
         String sessionId = getSessionId();
         assertFalse(accountService.iSignedIn(sessionId));
 
-        accountService.signIn(sessionId, user.getLogin(), user.getLogin());
+        accountService.signIn(sessionId, user.getLogin());
         assertTrue(accountService.iSignedIn(sessionId));
 
         accountService.logOut(sessionId);
@@ -110,7 +110,7 @@ public class AccountServiceTest extends TestCase {
         String sessionId = getSessionId();
         assertNull(accountService.getUserProfile(sessionId));
 
-        accountService.signIn(sessionId, user.getLogin(), user.getPass());
+        accountService.signIn(sessionId, user.getLogin());
         UserProfile signInUser = accountService.getUserProfile(sessionId);
         assertNotNull(signInUser);
 
@@ -135,7 +135,7 @@ public class AccountServiceTest extends TestCase {
         UserProfile user = createUser();
         accountService.signUp(user);
         String sessionId = getSessionId();
-        accountService.signIn(sessionId, user.getLogin(), user.getPass());
+        accountService.signIn(sessionId, user.getLogin());
 
         assertEquals(1, accountService.getAmountOfUsersOnline());
 

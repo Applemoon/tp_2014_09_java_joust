@@ -1,15 +1,13 @@
 package utils;
 
-import java.util.Date;
-
-public class TimeHelper {
-	public static void sleep(int period){
-		try{
-			Thread.sleep(period);
-		} catch (InterruptedException e) {				
-			e.printStackTrace();
-		}
-	}
+class TimeHelper {
+//	public static void sleep(int period){
+//		try{
+//			Thread.sleep(period);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 //    public static long getTimeInMs() {
 //        Date date = new Date();

@@ -14,8 +14,8 @@ import javax.servlet.annotation.WebServlet;
 public class WebSocketGameServlet extends WebSocketServlet {
     public final static String gamePageURL = "/gameplay";
     private final static int IDLE_TIME = 60 * 1000;
-    private WebSocketService webSocketService;
-    private AccountService accountService;
+    private final WebSocketService webSocketService;
+    private final AccountService accountService;
 
     public WebSocketGameServlet(WebSocketService webSocketService,
                                 AccountService accountService) {

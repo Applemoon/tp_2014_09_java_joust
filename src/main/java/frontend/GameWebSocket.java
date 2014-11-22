@@ -14,10 +14,10 @@ import org.json.simple.parser.ParseException;
 
 @WebSocket
 public class GameWebSocket {
-    private String name;
+    private final String name;
     private Session session;
     private GameSession gameSession;
-    private WebSocketService webSocketService;
+    private final WebSocketService webSocketService;
 
     public GameWebSocket(String name, WebSocketService webSocketService) {
         this.name = name;
@@ -58,7 +58,7 @@ public class GameWebSocket {
     }
 
     @SuppressWarnings("unchecked")
-    public void fillCellMessage(int x, int y, String player) {
+    void fillCellMessage(int x, int y, String player) {
         JSONObject json = new JSONObject();
         json.put("type", "turn");
         json.put("x", x);
@@ -68,6 +68,7 @@ public class GameWebSocket {
     }
 
     @OnWebSocketMessage
+    @SuppressWarnings("unused")
     public void onMessage(String data) throws ParseException {
         final JSONObject json = (JSONObject) new JSONParser().parse(data);
         final int x = Integer.parseInt(json.get("x").toString());
@@ -91,12 +92,14 @@ public class GameWebSocket {
     }
 
     @OnWebSocketConnect
+    @SuppressWarnings("unused")
     public void onOpen(Session session) {
         this.session = session;
         webSocketService.addUserSocket(this);
     }
 
     @OnWebSocketClose
+    @SuppressWarnings("unused")
     public void onClose(int statusCode, String reason) {
         if (gameSession.isGameOver()) {
             webSocketService.removeSocket(this);

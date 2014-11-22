@@ -1,13 +1,8 @@
 package utils;
 
-import utils.SaxHandler;
-
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-/**
- * Created by applemoon on 18.10.14.
- */
 public class ReadXMLFileSAX {
     public static Object readXML(String xmlFile) {
         try {

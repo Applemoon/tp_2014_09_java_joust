@@ -5,12 +5,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by alexey on 11.10.2014.
- */
 public interface AdminPageServlet {
     static final String adminPageURL = "/admin";
 
+    @SuppressWarnings("unused")
     void doGet(HttpServletRequest request,
                   HttpServletResponse response) throws ServletException, IOException;
 }

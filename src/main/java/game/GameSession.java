@@ -5,7 +5,7 @@ import base.ClickResult;
 public class GameSession {
     private final String first;
     private final String second;
-    private GameField gameField;
+    private final GameField gameField;
     private boolean firstPlayerTurn;
     private boolean gameIsOver;
 

@@ -7,8 +7,8 @@ import interfaces.WebSocketService;
 import java.util.*;
 
 public class WebSocketServiceImpl implements WebSocketService {
-    private Map<String, GameWebSocket> userSockets = new HashMap<>();
-    private Queue<String> waitersQueue = new LinkedList<String>();
+    private final Map<String, GameWebSocket> userSockets = new HashMap<>();
+    private final Queue<String> waitersQueue = new LinkedList<>();
 
     @Override
     public void addUserSocket(GameWebSocket userSocket) {

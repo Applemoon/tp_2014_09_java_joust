@@ -19,7 +19,7 @@ import javax.servlet.Servlet;
 /**
  * @author alexey
  */
-public class Main {
+class Main {
     public static void main(String[] args) throws Exception {
         Port portObj = (Port) ReadXMLFileSAX.readXML("port.xml");
         final int port = portObj.getPort();

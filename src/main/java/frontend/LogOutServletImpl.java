@@ -10,11 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by applemoon on 19.11.14.
- */
 public class LogOutServletImpl extends HttpServlet implements LogOutServlet {
-    private AccountService accountService;
+    private final AccountService accountService;
 
     public LogOutServletImpl(AccountService accountService) {
         this.accountService = accountService;

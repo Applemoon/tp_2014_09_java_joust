@@ -8,13 +8,10 @@ import db.UserProfileImpl;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by alexey on 13.09.14.
- */
 public class AccountServiceImpl implements AccountService {
-    private Map<String, UserProfile> users = new HashMap<>();
-    private Map<String, String> sessions = new HashMap<>(); // (id, login)
-    private Map<String, String> userSessions = new HashMap<>(); // (login, id)
+    private final Map<String, UserProfile> users = new HashMap<>();
+    private final Map<String, String> sessions = new HashMap<>(); // (id, login)
+    private final Map<String, String> userSessions = new HashMap<>(); // (login, id)
 
 
     public AccountServiceImpl() {
@@ -28,7 +25,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public boolean signIn(String sessionId, String login, String password) {
+    public boolean signIn(String sessionId, String login) {
         if (!iSignedIn(sessionId)) {
             if (userSessions.containsKey(login))
                 logOut(userSessions.get(login));

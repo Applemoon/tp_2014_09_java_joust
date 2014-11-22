@@ -5,12 +5,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by alexey on 11.10.2014.
- */
 public interface SignInServlet {
     static final String signInPageURL = "/api/v1/auth/signin";
 
+    @SuppressWarnings("unused")
     void doPost(HttpServletRequest request,
                   HttpServletResponse response) throws ServletException, IOException;
 }

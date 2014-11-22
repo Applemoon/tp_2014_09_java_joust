@@ -7,12 +7,9 @@ import org.eclipse.jetty.websocket.servlet.ServletUpgradeRequest;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;
 import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
 
-/**
- * Created by applemoon on 14.10.14.
- */
-public class CustomWebSocketCreator implements WebSocketCreator {
-    private WebSocketService webSocketService;
-    private AccountService accountService;
+class CustomWebSocketCreator implements WebSocketCreator {
+    private final WebSocketService webSocketService;
+    private final AccountService accountService;
 
     public CustomWebSocketCreator(WebSocketService webSocketService,
                                   AccountService accountService) {
