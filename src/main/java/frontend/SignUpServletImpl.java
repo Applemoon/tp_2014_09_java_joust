@@ -25,15 +25,14 @@ public class SignUpServletImpl extends HttpServlet implements SignUpServlet {
                        HttpServletResponse response) throws ServletException, IOException {
         final String login = request.getParameter("login");
         final String password = request.getParameter("password");
-        final String email = request.getParameter("email");
 
         JSONObject responseJson = new JSONObject();
 
-        if (login.isEmpty() || password.isEmpty() || email.isEmpty()) {
+        if (login.isEmpty() || password.isEmpty()) {
             responseJson.put("status", 403);
             responseJson.put("msg", "wrong_data");
         } else {
-            UserProfile user = new UserProfileImpl(login, password, email);
+            UserProfile user = new UserProfileImpl(login, password);
             if (accountService.signUp(user)) {
                 responseJson.put("status", 200);
             } else {

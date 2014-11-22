@@ -20,7 +20,8 @@ public class GameSession {
     }
 
     public ClickResult clickCell(String userName, int x, int y) {
-        if (firstPlayerTurn && userName.equals(first)) {
+        if ((firstPlayerTurn  && userName.equals(first)) ||
+            (!firstPlayerTurn && userName.equals(second))) {
             final boolean firstUser = first.equals(userName);
             final ClickResult clickResult = gameField.clickCell(firstUser, x, y);
             if (clickResult == ClickResult.FILLED) {
@@ -50,5 +51,9 @@ public class GameSession {
 
     public boolean isGameOver() {
         return gameIsOver;
+    }
+
+    public int getFieldSize() {
+        return gameField.getFieldSize();
     }
 }

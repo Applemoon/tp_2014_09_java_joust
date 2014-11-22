@@ -1,7 +1,7 @@
 package game;
 
 public class GameCell {
-    public enum CellState { FILLED_FIRST, FILLED_SECOND, EMPTY}
+    public enum CellState { FILLED_FIRST, FILLED_SECOND, EMPTY }
     private CellState state;
 
     public GameCell() {

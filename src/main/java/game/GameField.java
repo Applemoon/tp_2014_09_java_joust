@@ -17,6 +17,8 @@ import base.ClickResult;
 public class GameField {
     private static final int fieldSize = 5; // Для ровного шестиугольного поля только нечетные значения
     private static final int chainToWin = 3;
+    private final int smallEdge = (fieldSize - 3)/2;
+    private final int bigEdge = (3*fieldSize - 1)/2;
     private final GameCell[][] cells = new GameCell[fieldSize][fieldSize];
     private enum Direction { VERTICAL, RIGHT_UP, LEFT_UP }
 
@@ -28,26 +30,28 @@ public class GameField {
         }
     }
 
+    public int getFieldSize() {
+        return fieldSize;
+    }
+
     public ClickResult clickCell(boolean firstPlayer, int x, int y) {
-        if (validCoord(x, y)) {
+        if (notValidCoord(x, y)) {
             return ClickResult.NO_RESULT;
         }
 
-        if (cells[x][y].getState() == GameCell.CellState.FILLED_FIRST ||
-            cells[x][y].getState() == GameCell.CellState.FILLED_SECOND) {
+        if (alreadyFilled(x, y)) {
             return ClickResult.NO_RESULT;
         }
 
         if (firstPlayer) {
             cells[x][y].setState(GameCell.CellState.FILLED_FIRST);
-        }
-        else {
+        } else {
             cells[x][y].setState(GameCell.CellState.FILLED_SECOND);
         }
 
         final ClickResult checkWinResult = checkWin(x, y);
-        if (checkWinResult != ClickResult.NO_RESULT) {
-            return checkWinResult;
+        if (checkWinResult == ClickResult.WIN) {
+            return ClickResult.WIN;
         }
 
         return ClickResult.FILLED;
@@ -75,9 +79,9 @@ public class GameField {
                     break;
             }
 
-            if (validCoord(curX, curY) &&
-                    (firstPlayer && cells[curX][curY].getState() == GameCell.CellState.FILLED_FIRST) ||
-                    (!firstPlayer && cells[curX][curY].getState() == GameCell.CellState.FILLED_SECOND)) {
+            if (notValidCoord(curX, curY) &&
+                (firstPlayer && cells[curX][curY].getState() == GameCell.CellState.FILLED_FIRST) ||
+                (!firstPlayer && cells[curX][curY].getState() == GameCell.CellState.FILLED_SECOND)) {
                 chain++;
 
                 if (chain >= chainToWin) {
@@ -113,15 +117,18 @@ public class GameField {
         return Direction.VERTICAL;
     }
 
-    private boolean validCoord(int x, int y) {
-        final int smallEdge = (fieldSize - 3)/2;
-        final int bigEdge = (3*fieldSize - 1)/2;
+    private boolean notValidCoord(int x, int y) {
         return (x < 0              ||
                 x >= fieldSize     ||
                 y < 0              ||
                 y >= fieldSize     ||
                 x + y <= smallEdge ||
                 x + y >= bigEdge);
+    }
+
+    private boolean alreadyFilled(int x, int y) {
+        return (cells[x][y].getState() == GameCell.CellState.FILLED_FIRST ||
+                cells[x][y].getState() == GameCell.CellState.FILLED_SECOND);
     }
 }
 

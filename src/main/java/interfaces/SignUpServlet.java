@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public interface SignUpServlet {
-    static final String signUpPageURL = "/api/v1/auth/signup";
+    static final String signUpPageURL = "/signup";
 
     @SuppressWarnings("unused")
     void doPost(HttpServletRequest request,

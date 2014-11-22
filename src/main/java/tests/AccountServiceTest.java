@@ -18,7 +18,7 @@ public class AccountServiceTest extends TestCase {
     private static int counter = 0;
 
     private UserProfile createUser() {
-        return new UserProfileImpl("1", "1", "1");
+        return new UserProfileImpl("1", "1");
     }
 
     private String getSessionId() {

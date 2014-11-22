@@ -41,6 +41,7 @@ public class GameWebSocket {
         JSONObject json = new JSONObject();
         json.put("type", "start");
         json.put("enemy", enemyName);
+        json.put("field_size", gameSession.getFieldSize());
         if (hasFirstTurn) {
             json.put("player_turn", 1);
         } else {
@@ -84,6 +85,7 @@ public class GameWebSocket {
                 return;
             case FILLED:
                 fillCellMessage(x, y, name);
+                // TODO отправлять сообщение врагу
                 return;
             case NO_RESULT:
             default:
@@ -104,6 +106,7 @@ public class GameWebSocket {
         if (gameSession.isGameOver()) {
             webSocketService.removeSocket(this);
         }
+        // TODO отправлять другому игроку сообщение
     }
 
     public void setGameSession(GameSession gameSession) {

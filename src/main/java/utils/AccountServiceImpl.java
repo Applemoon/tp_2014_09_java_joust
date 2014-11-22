@@ -15,12 +15,13 @@ public class AccountServiceImpl implements AccountService {
 
 
     public AccountServiceImpl() {
-        users.put("admin", new UserProfileImpl("admin", "admin", "admin"));
-        users.put("test", new UserProfileImpl("test", "test", "test"));
+        users.put("admin", new UserProfileImpl("admin", "admin"));
+        users.put("test", new UserProfileImpl("test", "test"));
     }
 
     @Override
     public boolean validLoginAndPass(String login, String password) {
+        // TODO прикрутить БД
         return (users.containsKey(login) && users.get(login).getPass().equals(password));
     }
 
@@ -46,10 +47,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void logOut(String sessionId) {
-        if (iSignedIn(sessionId)) {
-            userSessions.remove(sessions.get(sessionId));
-            sessions.remove(sessionId);
-        }
+        userSessions.remove(sessions.get(sessionId));
+        sessions.remove(sessionId);
     }
 
     @Override

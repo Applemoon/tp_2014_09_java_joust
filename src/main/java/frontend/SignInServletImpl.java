@@ -26,23 +26,20 @@ public class SignInServletImpl extends HttpServlet implements SignInServlet {
                        HttpServletResponse response) throws ServletException, IOException {
         final String login = request.getParameter("login");
         final String password = request.getParameter("password");
-        final String email = "vasya_nagibator@mail.ru"; // TODO подключить БД
 
         final String sessionId = request.getSession().getId();
         JSONObject responseJson = new JSONObject();
 
         if (login.isEmpty() || password.isEmpty() || !accountService.validLoginAndPass(login, password)) {
-            responseJson.put("status", 403);
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             responseJson.put("msg", "wrong_data");
         } else if (accountService.signIn(sessionId, login)) {
-            responseJson.put("status", 200);
-            responseJson.put("email", email);
+            response.setStatus(HttpServletResponse.SC_OK);
         } else {
-            responseJson.put("status", 403);
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             responseJson.put("msg", "already_signed_in");
         }
 
-        response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().println(responseJson.toString());
     }
 }

@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public interface LogOutServlet {
-    static final String logOutPageUrl = "/api/v1/auth/logout";
+    static final String logOutPageUrl = "/logout";
 
     @SuppressWarnings("unused")
     void doPost(HttpServletRequest request,

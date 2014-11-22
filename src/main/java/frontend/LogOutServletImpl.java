@@ -18,17 +18,10 @@ public class LogOutServletImpl extends HttpServlet implements LogOutServlet {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         final String sessionId = request.getSession().getId();
-
-        JSONObject responseJson = new JSONObject();
-
         accountService.logOut(sessionId);
-
-        responseJson.put("status", 200);
         response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().println(responseJson.toString());
     }
 }

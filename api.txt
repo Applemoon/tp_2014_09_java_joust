@@ -4,15 +4,11 @@ Request (ajax):
 {
     "login" : login,
     "password" : pswd,
-    "email" : email
 }
 
 Response:
-{
-    "status" : 200
-}
-{
-    "status" : 403,
+200 : {}
+403 : {
     "msg" : ["wrong_data"|"already_signed_up"]
 }
 
@@ -25,25 +21,17 @@ Request (ajax):
 }
 
 Response:
-{
-    "status" : 200,
-    "email" : email
-}
-{
-    "status" : 403,
-    "msg" : ["wrong_data"|"already_signed_in"]
+200 : {}
+403 : {
+    "msg" : "wrong_data"
 }
 
 Выход из профиля
 Request:
-{
-    // "login" : login - не нужно!
-}
+{}
 
 Response:
-{
-    "status" : 200
-}
+{}
 
 
 
@@ -57,8 +45,9 @@ To server:
 
 From server:
 {
-    "type" : "start"
-    "enemy" : enemy_name
+    "type" : "start",
+    "enemy" : enemy_name,
+    "field_size" : field_size,
     "player_turn" : [1|2]
 }
 {

@@ -27,7 +27,6 @@ public class AdminPageServletImpl extends HttpServlet implements AdminPageServle
         if (user != null && user.getLogin().equals("admin")) {
             // TODO реализовать функционал (потом)
             JSONObject responseJson = new JSONObject();
-            responseJson.put("email", "admin");
             response.getWriter().println(responseJson.toString());
         }
     }

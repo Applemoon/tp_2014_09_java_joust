@@ -10,7 +10,7 @@ import javax.servlet.annotation.WebServlet;
 /**
  * This class represents a servlet starting a webSocket application
  */
-@WebServlet(name = "WebSocketGameServlet", urlPatterns = {"/game"})
+@WebServlet(name = "WebSocketGameServlet", urlPatterns = {"/game"}) // TODO узнать, что это такое
 public class WebSocketGameServlet extends WebSocketServlet {
     public final static String gamePageURL = "/gameplay";
     private final static int IDLE_TIME = 60 * 1000;

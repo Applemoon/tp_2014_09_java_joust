@@ -9,22 +9,15 @@ import interfaces.UserProfile;
 public class UserProfileImpl implements UserProfile {
     private final String login;
     private final String pass;
-    private final String email;
 
-    public UserProfileImpl(String login, String pass, String email) {
+    public UserProfileImpl(String login, String pass) {
         this.login = login;
         this.pass = pass;
-        this.email = email;
     }
 
     @Override
     public String getLogin() {
         return login;
-    }
-
-    @Override
-    public String getEmail() {
-        return email;
     }
 
     @Override
