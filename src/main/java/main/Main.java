@@ -32,16 +32,16 @@ class Main {
         Servlet signIn = new SignInServletImpl(accountService);
         Servlet signUp = new SignUpServletImpl(accountService);
         Servlet logOut = new LogOutServletImpl(accountService);
-        Servlet admin = new AdminPageServletImpl(accountService);
+        Servlet admin  = new AdminPageServletImpl(accountService);
         WebSocketGameServlet webSocketGameServlet = new WebSocketGameServlet(webSocketService, accountService);
         Servlet frontendServlet = new FrontendServlet(accountService);
 
         context.addServlet(new ServletHolder(signIn), SignInServlet.signInPageURL);
         context.addServlet(new ServletHolder(signUp), SignUpServlet.signUpPageURL);
         context.addServlet(new ServletHolder(logOut), LogOutServlet.logOutPageUrl);
-        context.addServlet(new ServletHolder(admin), AdminPageServlet.adminPageURL);
+        context.addServlet(new ServletHolder(admin),  AdminPageServlet.adminPageURL);
         context.addServlet(new ServletHolder(webSocketGameServlet), WebSocketGameServlet.gamePageURL);
-        context.addServlet(new ServletHolder(frontendServlet), "/game.html");
+        context.addServlet(new ServletHolder(frontendServlet), FrontendServlet.frontendUrl);
 
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setDirectoriesListed(true);

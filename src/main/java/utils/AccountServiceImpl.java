@@ -1,17 +1,18 @@
 package utils;
 
-import interfaces.AccountService;
-import interfaces.UserProfile;
-
-import db.UserProfileImpl;
-
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import java.util.HashMap;
 import java.util.Map;
 
+import db.UserProfileImpl;
+import interfaces.AccountService;
+import interfaces.UserProfile;
+
+
 public class AccountServiceImpl implements AccountService {
     private final Map<String, UserProfile> users = new HashMap<>();
-    private final Map<String, String> sessions = new HashMap<>(); // (id, login)
-    private final Map<String, String> userSessions = new HashMap<>(); // (login, id)
+    private final BiMap<String, String> userSessions = HashBiMap.create();
 
 
     public AccountServiceImpl() {
@@ -30,7 +31,6 @@ public class AccountServiceImpl implements AccountService {
         if (!iSignedIn(sessionId)) {
             if (userSessions.containsKey(login))
                 logOut(userSessions.get(login));
-            sessions.put(sessionId, login);
             userSessions.put(login, sessionId);
             return true;
         }
@@ -47,19 +47,20 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void logOut(String sessionId) {
-        userSessions.remove(sessions.get(sessionId));
-        sessions.remove(sessionId);
+        userSessions.inverse().remove(sessionId);
     }
 
     @Override
     public boolean iSignedIn(String sessionId) {
-        return sessions.containsKey(sessionId);
+        return userSessions.inverse().containsKey(sessionId);
     }
 
     @Override
     public UserProfile getUserProfile(String sessionId) {
-        if (iSignedIn(sessionId))
-            return users.get(sessions.get(sessionId));
+        if (iSignedIn(sessionId)) {
+            final String login = userSessions.inverse().get(sessionId);
+            return users.get(login);
+        }
         return null;
     }
 
@@ -70,6 +71,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public int getAmountOfUsersOnline() {
-        return sessions.size();
+        return userSessions.size();
     }
 }

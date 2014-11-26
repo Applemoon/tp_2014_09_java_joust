@@ -14,6 +14,7 @@ import java.util.Map;
 
 public class FrontendServlet extends HttpServlet {
     private final AccountService accountService;
+    public static final String frontendUrl = "/game.html";
 
     public FrontendServlet(AccountService accountService) {
         this.accountService = accountService;
