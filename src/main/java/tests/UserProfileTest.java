@@ -1,8 +1,6 @@
 package tests;
 
-import interfaces.UserProfile;
-
-import db.UserProfileImpl;
+import db.UserProfile;
 
 import junit.framework.TestCase;
 
@@ -12,7 +10,7 @@ public class UserProfileTest extends TestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        user = new UserProfileImpl(getLogin(), getPass());
+        user = new UserProfile(getLogin(), getPass());
     }
 
     public void testGetLogin() throws Exception {

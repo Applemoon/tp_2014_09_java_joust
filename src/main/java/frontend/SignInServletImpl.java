@@ -10,9 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * @author alexey
- */
 public class SignInServletImpl extends HttpServlet implements SignInServlet {
     private final AccountService accountService;
 

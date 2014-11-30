@@ -2,6 +2,7 @@ package main;
 
 import admin.AdminPageServletImpl;
 import base.Port;
+import db.DBServiceImpl;
 import frontend.*;
 import interfaces.*;
 import base.WebSocketServiceImpl;
@@ -26,7 +27,8 @@ class Main {
         Server server = new Server(port);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
-        AccountService accountService = new AccountServiceImpl();
+        DBService dbService = new DBServiceImpl();
+        AccountService accountService = new AccountServiceImpl(dbService);
         WebSocketService webSocketService = new WebSocketServiceImpl();
 
         Servlet signIn = new SignInServletImpl(accountService);

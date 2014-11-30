@@ -2,9 +2,8 @@ package frontend;
 
 import interfaces.AccountService;
 import interfaces.SignUpServlet;
-import interfaces.UserProfile;
 
-import db.UserProfileImpl;
+import db.UserProfile;
 import org.json.simple.JSONObject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -32,7 +31,7 @@ public class SignUpServletImpl extends HttpServlet implements SignUpServlet {
             responseJson.put("status", 403);
             responseJson.put("msg", "wrong_data");
         } else {
-            UserProfile user = new UserProfileImpl(login, password);
+            UserProfile user = new UserProfile(login, password);
             if (accountService.signUp(user)) {
                 responseJson.put("status", 200);
             } else {

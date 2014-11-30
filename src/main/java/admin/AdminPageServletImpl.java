@@ -1,8 +1,8 @@
 package admin;
 
+import db.UserProfile;
 import interfaces.AccountService;
 import interfaces.AdminPageServlet;
-import interfaces.UserProfile;
 import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
@@ -27,6 +27,8 @@ public class AdminPageServletImpl extends HttpServlet implements AdminPageServle
         if (user != null && user.getLogin().equals("admin")) {
             // TODO реализовать функционал (потом)
             JSONObject responseJson = new JSONObject();
+            responseJson.put("users_count", accountService.getAmountOfRegisteredUsers());
+            responseJson.put("users_online_count", accountService.getAmountOfUsersOnline());
             response.getWriter().println(responseJson.toString());
         }
     }

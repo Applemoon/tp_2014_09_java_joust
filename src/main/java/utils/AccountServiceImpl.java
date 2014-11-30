@@ -2,28 +2,26 @@ package utils;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import java.util.HashMap;
-import java.util.Map;
 
-import db.UserProfileImpl;
+import db.UserProfile;
 import interfaces.AccountService;
-import interfaces.UserProfile;
+import interfaces.DBService;
 
 
 public class AccountServiceImpl implements AccountService {
-    private final Map<String, UserProfile> users = new HashMap<>();
     private final BiMap<String, String> userSessions = HashBiMap.create();
+    private DBService dbService;
 
 
-    public AccountServiceImpl() {
-        users.put("admin", new UserProfileImpl("admin", "admin"));
-        users.put("test", new UserProfileImpl("test", "test"));
+    public AccountServiceImpl(DBService dbService) {
+        this.dbService = dbService;
+        dbService.createUser("admin", "admin");
+        dbService.createUser("test", "test");
     }
 
     @Override
     public boolean validLoginAndPass(String login, String password) {
-        // TODO прикрутить БД
-        return (users.containsKey(login) && users.get(login).getPass().equals(password));
+        return dbService.validateUser(login, password);
     }
 
     @Override
@@ -39,9 +37,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public boolean signUp(UserProfile user) {
-        if (users.containsKey(user.getLogin()))
+        if (dbService.isUserExists(user.getLogin()))
             return false;
-        users.put(user.getLogin(), user); // TODO прикрутить БД
+        dbService.createUser(user.getLogin(), user.getPass());
         return true;
     }
 
@@ -59,14 +57,14 @@ public class AccountServiceImpl implements AccountService {
     public UserProfile getUserProfile(String sessionId) {
         if (iSignedIn(sessionId)) {
             final String login = userSessions.inverse().get(sessionId);
-            return users.get(login);
+            return dbService.getUserProfile(login);
         }
         return null;
     }
 
     @Override
     public int getAmountOfRegisteredUsers() {
-        return users.size();
+        return dbService.getAmountOfRegisteredUsers();
     }
 
     @Override

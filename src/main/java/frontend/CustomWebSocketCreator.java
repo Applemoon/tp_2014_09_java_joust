@@ -1,7 +1,7 @@
 package frontend;
 
+import db.UserProfile;
 import interfaces.AccountService;
-import interfaces.UserProfile;
 import interfaces.WebSocketService;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeRequest;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;

@@ -1,0 +1,15 @@
+Пользователь базы root, пароль 1
+База: hzdb
+Таблица: users
+- username CHAR(20)
+- password CHAR(64)
+- games_played INT DEFAULT 0
+- games_won INT DEFAULT 0
+- PRIMARY KEY (username)
+
+create table if not exists users (
+username char(20),
+password char(64),
+games_played int default 0,
+games_won int default 0,
+primary key (username));

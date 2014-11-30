@@ -1,5 +1,7 @@
 package interfaces;
 
+import db.UserProfile;
+
 public interface AccountService {
     boolean validLoginAndPass(String login, String password);
 
