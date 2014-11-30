@@ -2,7 +2,6 @@ package utils;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-
 import db.UserProfile;
 import interfaces.AccountService;
 import interfaces.DBService;
@@ -10,7 +9,7 @@ import interfaces.DBService;
 
 public class AccountServiceImpl implements AccountService {
     private final BiMap<String, String> userSessions = HashBiMap.create();
-    private DBService dbService;
+    private final DBService dbService;
 
 
     public AccountServiceImpl(DBService dbService) {

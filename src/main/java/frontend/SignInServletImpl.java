@@ -2,8 +2,8 @@ package frontend;
 
 import interfaces.AccountService;
 import interfaces.SignInServlet;
-
 import org.json.simple.JSONObject;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

@@ -17,8 +17,6 @@ import base.ClickResult;
 public class GameField {
     private static final int fieldSize = 5; // Для ровного шестиугольного поля только нечетные значения
     private static final int chainToWin = 3;
-    private final int smallEdge = (fieldSize - 3)/2;
-    private final int bigEdge = (3*fieldSize - 1)/2;
     private final GameCell[][] cells = new GameCell[fieldSize][fieldSize];
     private enum Direction { VERTICAL, RIGHT_UP, LEFT_UP }
 
@@ -118,6 +116,8 @@ public class GameField {
     }
 
     private boolean notValidCoord(int x, int y) {
+        final int smallEdge = (fieldSize - 3) / 2;
+        final int bigEdge = (3 * fieldSize - 1) / 2;
         return (x < 0              ||
                 x >= fieldSize     ||
                 y < 0              ||

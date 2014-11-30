@@ -1,18 +1,14 @@
 package tests;
 
 import db.DBServiceImpl;
-import interfaces.AccountService;
-
 import db.UserProfile;
+import interfaces.AccountService;
 import interfaces.DBService;
-import org.junit.Assert;
-import utils.AccountServiceImpl;
-
-import junit.framework.TestCase;
-
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import utils.AccountServiceImpl;
 
 public class AccountServiceTest {
 

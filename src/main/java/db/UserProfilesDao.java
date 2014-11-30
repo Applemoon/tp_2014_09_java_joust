@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserProfilesDao {
-    private Connection connection;
+class UserProfilesDao {
+    private final Connection connection;
 
     public UserProfilesDao(Connection connection) {
         this.connection = connection;

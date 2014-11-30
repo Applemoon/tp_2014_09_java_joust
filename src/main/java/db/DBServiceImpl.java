@@ -8,7 +8,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBServiceImpl implements DBService {
-    private Connection connection;
+    private final Connection connection;
 
     public DBServiceImpl() {
         connection = getConnection();

@@ -1,7 +1,6 @@
 package tests;
 
 import db.UserProfile;
-
 import junit.framework.TestCase;
 
 public class UserProfileTest extends TestCase {

@@ -1,9 +1,10 @@
 package db;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
 import java.sql.*;
 
-public class TDBExecutor {
-
+class TDBExecutor {
     public void createTable(Connection connection) {
         final String queryCreateTable =
                 "create table if not exists users (" +
@@ -30,7 +31,7 @@ public class TDBExecutor {
         return value;
     }
 
-    public void execUpdate(Connection connection, String update) throws SQLException {
+    void execUpdate(Connection connection, String update) throws SQLException {
         Statement stmt = connection.createStatement();
         stmt.execute(update);
         stmt.close();
@@ -48,6 +49,8 @@ public class TDBExecutor {
 
             connection.commit();
             stmt.close();
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            System.err.println("User " + username + " is already exists");
         } catch (SQLException e) {
             try {
                 connection.rollback();

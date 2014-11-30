@@ -1,10 +1,10 @@
 package frontend;
 
+import db.UserProfile;
 import interfaces.AccountService;
 import interfaces.SignUpServlet;
-
-import db.UserProfile;
 import org.json.simple.JSONObject;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
