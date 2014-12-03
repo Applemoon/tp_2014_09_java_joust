@@ -1,4 +1,4 @@
-package interfaces;
+package interfaces.services;
 
 import frontend.GameWebSocket;
 

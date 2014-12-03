@@ -1,8 +1,8 @@
-package admin;
+package servlets;
 
 import db.UserProfile;
-import interfaces.AccountService;
-import interfaces.AdminPageServlet;
+import interfaces.services.AccountService;
+import interfaces.servlets.AdminPageServlet;
 import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
@@ -23,8 +23,14 @@ public class AdminPageServletImpl extends HttpServlet implements AdminPageServle
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         final String sessionId = request.getSession().getId();
+        final String shutdownTime = request.getParameter("shutdown");
         UserProfile user = accountService.getUserProfile(sessionId);
+
         if (user != null && user.getLogin().equals("admin")) {
+            if (shutdownTime != null) {
+                // TODO выключить сервер через shutdownTime с помощью таймера
+            }
+
             // TODO реализовать функционал (потом)
             JSONObject responseJson = new JSONObject();
             responseJson.put("users_count", accountService.getAmountOfRegisteredUsers());

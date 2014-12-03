@@ -1,7 +1,7 @@
-package frontend;
+package servlets;
 
-import interfaces.AccountService;
-import interfaces.LogOutServlet;
+import interfaces.services.AccountService;
+import interfaces.servlets.LogOutServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

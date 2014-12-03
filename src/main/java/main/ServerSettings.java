@@ -1,11 +1,11 @@
-package base;
+package main;
 
 import java.io.Serializable;
 
-public class Port implements Serializable {
+public class ServerSettings implements Serializable {
     private final int port;
 
-    public Port() {
+    public ServerSettings() {
         this.port = 0;
     }
 

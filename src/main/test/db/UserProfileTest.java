@@ -1,24 +1,11 @@
-package tests;
+package db;
 
-import db.UserProfile;
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-public class UserProfileTest extends TestCase {
-
+public class UserProfileTest {
     private UserProfile user;
-
-    public void setUp() throws Exception {
-        super.setUp();
-        user = new UserProfile(getLogin(), getPass());
-    }
-
-    public void testGetLogin() throws Exception {
-        assertEquals(getLogin(), user.getLogin());
-    }
-
-    public void testGetPass() throws Exception {
-        assertEquals(getPass(), user.getPass());
-    }
 
     private String getPass() {
         return "testPass48@_GGG";
@@ -26,5 +13,20 @@ public class UserProfileTest extends TestCase {
 
     private String getLogin() {
         return "testLogin";
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        user = new UserProfile(getLogin(), getPass());
+    }
+
+    @Test
+    public void testGetLogin() throws Exception {
+        assertEquals(getLogin(), user.getLogin());
+    }
+
+    @Test
+    public void testGetPass() throws Exception {
+        assertEquals(getPass(), user.getPass());
     }
 }

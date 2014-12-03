@@ -1,8 +1,8 @@
-package base;
+package services;
 
 import frontend.GameWebSocket;
 import game.GameSession;
-import interfaces.WebSocketService;
+import interfaces.services.WebSocketService;
 
 import java.util.HashMap;
 import java.util.LinkedList;

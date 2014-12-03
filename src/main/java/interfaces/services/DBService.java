@@ -1,4 +1,4 @@
-package interfaces;
+package interfaces.services;
 
 import db.UserProfile;
 
@@ -11,9 +11,7 @@ public interface DBService {
 
     UserProfile getUserProfile(String username);
 
-//    int getUserPlayedGames(String username);
-
-//    int getUserWonGames(String username);
-
     int getAmountOfRegisteredUsers();
+
+    void deleteUser(String username);
 }

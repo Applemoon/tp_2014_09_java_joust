@@ -1,7 +1,5 @@
 package game;
 
-import base.ClickResult;
-
 /**
  * Created by applemoon on 30.10.14.
  *

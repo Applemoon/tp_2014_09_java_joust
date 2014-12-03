@@ -1,18 +1,23 @@
 package main;
 
-import admin.AdminPageServletImpl;
-import base.Port;
-import base.WebSocketServiceImpl;
-import db.DBServiceImpl;
-import frontend.*;
-import interfaces.*;
+import interfaces.services.AccountService;
+import interfaces.services.DBService;
+import interfaces.services.WebSocketService;
+import servlets.AdminPageServletImpl;
+import services.WebSocketServiceImpl;
+import services.DBServiceImpl;
+import interfaces.servlets.AdminPageServlet;
+import interfaces.servlets.LogOutServlet;
+import interfaces.servlets.SignInServlet;
+import interfaces.servlets.SignUpServlet;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import utils.AccountServiceImpl;
+import servlets.*;
+import services.AccountServiceImpl;
 import utils.ReadXMLFileSAX;
 
 import javax.servlet.Servlet;
@@ -22,8 +27,8 @@ import javax.servlet.Servlet;
  */
 class Main {
     public static void main(String[] args) throws Exception {
-        Port portObj = (Port) ReadXMLFileSAX.readXML("port.xml");
-        final int port = portObj.getPort();
+        ServerSettings serverSettings = (ServerSettings) ReadXMLFileSAX.readXML("server_settings.xml");
+        final int port = serverSettings.getPort();
         Server server = new Server(port);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 

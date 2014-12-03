@@ -1,7 +1,8 @@
-package frontend;
+package servlets;
 
-import interfaces.AccountService;
-import interfaces.WebSocketService;
+import frontend.CustomWebSocketCreator;
+import interfaces.services.AccountService;
+import interfaces.services.WebSocketService;
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 

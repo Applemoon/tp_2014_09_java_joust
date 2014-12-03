@@ -1,10 +1,10 @@
-package utils;
+package services;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import db.UserProfile;
-import interfaces.AccountService;
-import interfaces.DBService;
+import interfaces.services.AccountService;
+import interfaces.services.DBService;
 
 
 public class AccountServiceImpl implements AccountService {
@@ -25,7 +25,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public boolean signIn(String sessionId, String login) {
-        if (!iSignedIn(sessionId)) {
+        if (!isSignedIn(sessionId)) {
             if (userSessions.containsKey(login))
                 logOut(userSessions.get(login));
             userSessions.put(login, sessionId);
@@ -48,13 +48,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public boolean iSignedIn(String sessionId) {
+    public boolean isSignedIn(String sessionId) {
         return userSessions.inverse().containsKey(sessionId);
     }
 
     @Override
     public UserProfile getUserProfile(String sessionId) {
-        if (iSignedIn(sessionId)) {
+        if (isSignedIn(sessionId)) {
             final String login = userSessions.inverse().get(sessionId);
             return dbService.getUserProfile(login);
         }
@@ -69,5 +69,12 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public int getAmountOfUsersOnline() {
         return userSessions.size();
+    }
+
+    @Override
+    public void deleteUser(UserProfile user) {
+        final String sessionId = userSessions.get(user.getLogin());
+        logOut(sessionId);
+        dbService.deleteUser(user.getLogin());
     }
 }

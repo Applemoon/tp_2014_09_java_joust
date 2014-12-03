@@ -1,6 +1,9 @@
-package db;
+package services;
 
-import interfaces.DBService;
+import db.TDBExecutor;
+import db.UserProfile;
+import db.UserProfilesDao;
+import interfaces.services.DBService;
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -12,8 +15,23 @@ public class DBServiceImpl implements DBService {
 
     public DBServiceImpl() {
         connection = getConnection();
+        createTable();
+    }
+
+    private void createTable() {
         TDBExecutor executor = new TDBExecutor();
-        executor.createTable(connection);
+        final String queryCreateTable =
+                "create table if not exists users (" +
+                        "username char(20)," +
+                        "password char(64)," +
+                        "games_played int default 0," +
+                        "games_won int default 0," +
+                        "primary key (username));";
+        try {
+            executor.execUpdate(connection, queryCreateTable);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private static Connection getConnection() {
@@ -63,21 +81,15 @@ public class DBServiceImpl implements DBService {
         return userProfilesDao.get(username);
     }
 
-//    @Override
-//    public int getUserPlayedGames(String username) {
-//        UserProfilesDao userProfilesDao = new UserProfilesDao(connection);
-//        return userProfilesDao.getPlayedGames(username);
-//    }
-
-//    @Override
-//    public int getUserWonGames(String username) {
-//        UserProfilesDao userProfilesDao = new UserProfilesDao(connection);
-//        return userProfilesDao.getWonGames(username);
-//    }
-
     @Override
     public int getAmountOfRegisteredUsers() {
         UserProfilesDao userProfilesDao = new UserProfilesDao(connection);
         return userProfilesDao.getUsersCount();
+    }
+
+    @Override
+    public void deleteUser(String username) {
+        UserProfilesDao userProfilesDao = new UserProfilesDao(connection);
+        userProfilesDao.deleteUser(username);
     }
 }
