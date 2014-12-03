@@ -1,0 +1,4 @@
+<class type='game.GameSettings'>
+    <fieldSize>5</fieldSize>
+    <chainToWin>3</chainToWin>
+</class>

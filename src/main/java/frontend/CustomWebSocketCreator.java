@@ -7,7 +7,7 @@ import org.eclipse.jetty.websocket.servlet.ServletUpgradeRequest;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;
 import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
 
-class CustomWebSocketCreator implements WebSocketCreator {
+public class CustomWebSocketCreator implements WebSocketCreator {
     private final WebSocketService webSocketService;
     private final AccountService accountService;
 

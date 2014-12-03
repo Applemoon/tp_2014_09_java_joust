@@ -1,5 +1,7 @@
 package game;
 
+import utils.ReadXMLFileSAX;
+
 public class GameSession {
     private final String first;
     private final String second;
@@ -11,14 +13,15 @@ public class GameSession {
         first = user1;
         second = user2;
 
-        gameField = new GameField();
+        GameSettings serverSettings = (GameSettings) ReadXMLFileSAX.readXML("game_settings.xml");
+        gameField = new GameField(serverSettings.getFieldSize(), serverSettings.getChainToWin());
 
         firstPlayerTurn = true;
         gameIsOver = false;
     }
 
     public ClickResult clickCell(String userName, int x, int y) {
-        if ((firstPlayerTurn  && userName.equals(first)) ||
+        if (( firstPlayerTurn && userName.equals(first)) ||
             (!firstPlayerTurn && userName.equals(second))) {
             final boolean firstUser = first.equals(userName);
             final ClickResult clickResult = gameField.clickCell(firstUser, x, y);

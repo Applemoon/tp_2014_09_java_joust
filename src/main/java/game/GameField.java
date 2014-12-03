@@ -1,8 +1,6 @@
 package game;
 
 /**
- * Created by applemoon on 30.10.14.
- *
  * Вот такое игрвое поле:
  *       0
  *      /
@@ -13,14 +11,18 @@ package game;
  * . . 0 0 0 -> 0
  */
 public class GameField {
-    private static final int fieldSize = 5; // Для ровного шестиугольного поля только нечетные значения
-    private static final int chainToWin = 3;
-    private final GameCell[][] cells = new GameCell[fieldSize][fieldSize];
+    private int fieldSize;
+    private final int chainToWin;
+    private final GameCell[][] cells;
     private enum Direction { VERTICAL, RIGHT_UP, LEFT_UP }
 
-    public GameField() {
-        for (int i = 0; i < fieldSize; i++) {
-            for (int j = 0; j < fieldSize; j++) {
+    public GameField(int fieldSize, int chainToWin) {
+        this.fieldSize = fieldSize;
+        this.chainToWin = chainToWin;
+
+        cells = new GameCell[this.fieldSize][this.fieldSize];
+        for (int i = 0; i < this.fieldSize; i++) {
+            for (int j = 0; j < this.fieldSize; j++) {
                 cells[i][j] = new GameCell();
             }
         }
@@ -75,13 +77,16 @@ public class GameField {
                     break;
             }
 
-            if (notValidCoord(curX, curY) &&
-                (firstPlayer && cells[curX][curY].getState() == GameCell.CellState.FILLED_FIRST) ||
-                (!firstPlayer && cells[curX][curY].getState() == GameCell.CellState.FILLED_SECOND)) {
-                chain++;
+            if (!notValidCoord(curX, curY)) {
+                if ((firstPlayer &&
+                        cells[curX][curY].getState() == GameCell.CellState.FILLED_FIRST) ||
+                    (!firstPlayer &&
+                            cells[curX][curY].getState() == GameCell.CellState.FILLED_SECOND)) {
+                    chain++;
 
-                if (chain >= chainToWin) {
-                    return ClickResult.WIN;
+                    if (chain >= chainToWin) {
+                        return ClickResult.WIN;
+                    }
                 }
                 continue;
             }

@@ -22,9 +22,6 @@ import utils.ReadXMLFileSAX;
 
 import javax.servlet.Servlet;
 
-/**
- * @author alexey
- */
 class Main {
     public static void main(String[] args) throws Exception {
         ServerSettings serverSettings = (ServerSettings) ReadXMLFileSAX.readXML("server_settings.xml");
