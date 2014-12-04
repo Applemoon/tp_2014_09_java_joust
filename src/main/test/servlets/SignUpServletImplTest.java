@@ -4,7 +4,6 @@ import services.DBServiceImpl;
 import db.UserProfile;
 import interfaces.services.AccountService;
 import interfaces.services.DBService;
-import servlets.SignUpServletImpl;
 import services.AccountServiceImpl;
 
 import org.junit.Before;

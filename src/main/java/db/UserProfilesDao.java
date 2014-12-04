@@ -14,7 +14,7 @@ public class UserProfilesDao {
     }
 
     public UserProfile get(String username) {
-        final String query = "select username, password from users where username = ?"; // TODO кавычки
+        final String query = "select username, password from users where username = ?";
         final String[] parameters = {username};
         TDBExecutor executor = new TDBExecutor();
         try {
@@ -58,10 +58,11 @@ public class UserProfilesDao {
     }
 
     public boolean isUserExists(String username) {
-        final String query = "select username from users where username = '" + username + "'"; // TODO кавычки
+        final String query = "select username from users where username = ?";
+        final String[] parameters = {username};
         TDBExecutor executor = new TDBExecutor();
         try {
-            return executor.execQuery(connection, query, new TResultHandler<Boolean>() {
+            return executor.execQuery(connection, query, parameters, new TResultHandler<Boolean>() {
                 public Boolean handle(ResultSet result) throws SQLException {
                     return result.isBeforeFirst();
                 }});
