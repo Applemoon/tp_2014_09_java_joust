@@ -25,7 +25,6 @@ public class TDBExecutor {
         ResultSet result = statement.executeQuery();
         T value = handler.handle(result);
         result.close();
-        connection.commit();
         statement.close();
         return value;
     }
@@ -37,17 +36,13 @@ public class TDBExecutor {
     }
 
     public void execUpdate(Connection connection, String query, String[] parameters) throws SQLException {
-        connection.setAutoCommit(false);
         PreparedStatement statement = connection.prepareStatement(query);
-
         int i = 0;
         for (String parameter : parameters) {
             i++;
             statement.setString(i, parameter);
         }
         statement.executeUpdate();
-
-        connection.commit();
         statement.close();
     }
 }
