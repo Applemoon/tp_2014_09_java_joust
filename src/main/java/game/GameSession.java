@@ -1,6 +1,6 @@
 package game;
 
-import utils.ReadXMLFileSAX;
+import services.ResourceFactory;
 
 public class GameSession {
     private final String first;
@@ -13,7 +13,8 @@ public class GameSession {
         first = user1;
         second = user2;
 
-        GameSettings serverSettings = (GameSettings) ReadXMLFileSAX.readXML("game_settings.xml");
+        ResourceFactory.instance().setResource(ResourceFactory.gameSettingsFilename);
+        GameSettings serverSettings = (GameSettings) ResourceFactory.instance().getResource(ResourceFactory.gameSettingsFilename);
         gameField = new GameField(serverSettings.getFieldSize(), serverSettings.getChainToWin());
 
         firstPlayerTurn = true;

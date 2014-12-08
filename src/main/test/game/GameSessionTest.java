@@ -1,9 +1,9 @@
 package game;
 
-import utils.ReadXMLFileSAX;
-
 import org.junit.Before;
 import org.junit.Test;
+import services.ResourceFactory;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -86,7 +86,8 @@ public class GameSessionTest {
 
     @Test
     public void testGetFieldSize() throws Exception {
-        GameSettings serverSettings = (GameSettings) ReadXMLFileSAX.readXML("game_settings.xml");
+        ResourceFactory.instance().setResource(ResourceFactory.gameSettingsFilename);
+        GameSettings serverSettings = (GameSettings) ResourceFactory.instance().getResource(ResourceFactory.gameSettingsFilename);
         assertEquals(serverSettings.getFieldSize(), gameSession.getFieldSize());
     }
 }

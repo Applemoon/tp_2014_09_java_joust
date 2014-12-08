@@ -1,12 +1,10 @@
 package services;
 
-import services.DBServiceImpl;
 import db.UserProfile;
 import interfaces.services.DBService;
 
 import org.junit.Before;
 import org.junit.Test;
-import services.AccountServiceImpl;
 
 import static org.junit.Assert.*;
 

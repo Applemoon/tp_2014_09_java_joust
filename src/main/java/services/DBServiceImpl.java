@@ -1,5 +1,6 @@
 package services;
 
+import db.DBSettings;
 import db.TDBExecutor;
 import db.UserProfile;
 import db.UserProfilesDao;
@@ -22,11 +23,11 @@ public class DBServiceImpl implements DBService {
         TDBExecutor executor = new TDBExecutor();
         final String queryCreateTable =
                 "create table if not exists users (" +
-                        "username char(20)," +
-                        "password char(64)," +
-                        "games_played int default 0," +
-                        "games_won int default 0," +
-                        "primary key (username));";
+                "username char(20)," +
+                "password char(64)," +
+                "games_played int default 0," +
+                "games_won int default 0," +
+                "primary key (username));";
         try {
             executor.execUpdate(connection, queryCreateTable);
         } catch (SQLException e) {
@@ -39,18 +40,16 @@ public class DBServiceImpl implements DBService {
             Driver driver = (Driver) Class.forName("com.mysql.jdbc.Driver").newInstance();
             DriverManager.registerDriver(driver);
 
-            StringBuilder url = new StringBuilder();
-
-            url.append("jdbc:mysql://").	//db type
-                append("localhost:"). 		//host name
-                append("3306/").			//port
-                append("hzdb?").			//db name
-                append("user=root&").		//login
-                append("password=1");		//password
+            ResourceFactory.instance().setResource(ResourceFactory.dbSettingsFilename);
+            DBSettings dbSettings = (DBSettings) ResourceFactory.instance().getResource(ResourceFactory.dbSettingsFilename);
+            final String url = dbSettings.getType() + "://" +
+                    dbSettings.getHost() + ":" + dbSettings.getPort() + "/" +
+                    dbSettings.getName() + "?user=" + dbSettings.getLogin() +
+                    "&password=" + dbSettings.getPassword();
 
             System.out.println("URL: " + url);
 
-            return DriverManager.getConnection(url.toString());
+            return DriverManager.getConnection(url);
         } catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             e.printStackTrace();
         }

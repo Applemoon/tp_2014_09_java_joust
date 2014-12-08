@@ -2,7 +2,7 @@ package game;
 
 import org.junit.Before;
 import org.junit.Test;
-import utils.ReadXMLFileSAX;
+import services.ResourceFactory;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +12,8 @@ public class GameFieldTest {
 
     @Before
     public void setUp() throws Exception {
-        GameSettings serverSettings = (GameSettings) ReadXMLFileSAX.readXML("game_settings.xml");
+        ResourceFactory.instance().setResource(ResourceFactory.gameSettingsFilename);
+        GameSettings serverSettings = (GameSettings) ResourceFactory.instance().getResource(ResourceFactory.gameSettingsFilename);
         field = new GameField(serverSettings.getFieldSize(), serverSettings.getChainToWin());
         fieldSize = serverSettings.getFieldSize();
     }

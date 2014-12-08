@@ -3,6 +3,7 @@ package main;
 import interfaces.services.AccountService;
 import interfaces.services.DBService;
 import interfaces.services.WebSocketService;
+import services.ResourceFactory;
 import servlets.AdminPageServletImpl;
 import services.WebSocketServiceImpl;
 import services.DBServiceImpl;
@@ -18,13 +19,13 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import servlets.*;
 import services.AccountServiceImpl;
-import utils.ReadXMLFileSAX;
 
 import javax.servlet.Servlet;
 
 class Main {
     public static void main(String[] args) throws Exception {
-        ServerSettings serverSettings = (ServerSettings) ReadXMLFileSAX.readXML("server_settings.xml");
+        ResourceFactory.instance().setResource(ResourceFactory.serverSettingsFilename);
+        ServerSettings serverSettings = (ServerSettings) ResourceFactory.instance().getResource(ResourceFactory.serverSettingsFilename);
         final int port = serverSettings.getPort();
         Server server = new Server(port);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -58,3 +59,5 @@ class Main {
         server.start();
     }
 }
+
+// TODO selenium - тест первой страницы

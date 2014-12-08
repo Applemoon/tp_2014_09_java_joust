@@ -50,11 +50,15 @@ public class DBServiceImplTest {
     }
 
     void createAndDeleteUser() {
-        assertEquals(2, dbService.getAmountOfRegisteredUsers());
+        int usersCount = dbService.getAmountOfRegisteredUsers();
+
         dbService.createUser(getUsername(), "test2");
-        assertEquals(3, dbService.getAmountOfRegisteredUsers());
+        usersCount++;
+        assertEquals(usersCount, dbService.getAmountOfRegisteredUsers());
+
         dbService.deleteUser(getUsername());
-        assertEquals(2, dbService.getAmountOfRegisteredUsers());
+        usersCount--;
+        assertEquals(usersCount, dbService.getAmountOfRegisteredUsers());
     }
 
     @Test

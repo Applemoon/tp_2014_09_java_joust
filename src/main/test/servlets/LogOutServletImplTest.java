@@ -1,17 +1,17 @@
 package servlets;
 
-import services.DBServiceImpl;
 import interfaces.services.AccountService;
 import interfaces.services.DBService;
-import servlets.LogOutServletImpl;
-import services.AccountServiceImpl;
-
 import org.junit.Before;
 import org.junit.Test;
+import services.AccountServiceImpl;
+import services.DBServiceImpl;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
+
 import static org.mockito.Mockito.*;
 
 public class LogOutServletImplTest {
