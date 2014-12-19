@@ -3,6 +3,7 @@ package main;
 import interfaces.services.AccountService;
 import interfaces.services.DBService;
 import interfaces.services.WebSocketService;
+import messageSystem.MessageSystem;
 import services.ResourceFactory;
 import servlets.AdminPageServletImpl;
 import services.WebSocketServiceImpl;
@@ -30,8 +31,9 @@ class Main {
         Server server = new Server(port);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
-        DBService dbService = new DBServiceImpl();
-        AccountService accountService = new AccountServiceImpl(dbService);
+        MessageSystem messageSystem = new MessageSystem();
+        DBService dbService = new DBServiceImpl(messageSystem);
+        AccountService accountService = new AccountServiceImpl(dbService, messageSystem);
         WebSocketService webSocketService = new WebSocketServiceImpl();
 
         Servlet signIn = new SignInServletImpl(accountService);

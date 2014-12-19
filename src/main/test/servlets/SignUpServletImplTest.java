@@ -1,5 +1,6 @@
 package servlets;
 
+import messageSystem.MessageSystem;
 import services.DBServiceImpl;
 import db.UserProfile;
 import interfaces.services.AccountService;
@@ -23,8 +24,9 @@ public class SignUpServletImplTest {
 
     @Before
     public void setUp() throws Exception {
-        DBService dbService = new DBServiceImpl();
-        accountService = new AccountServiceImpl(dbService);
+        MessageSystem messageSystem = new MessageSystem();
+        DBService dbService = new DBServiceImpl(messageSystem);
+        accountService = new AccountServiceImpl(dbService, messageSystem);
         servlet = new SignUpServletImpl(accountService);
 
         mockRequest = mock(HttpServletRequest.class);

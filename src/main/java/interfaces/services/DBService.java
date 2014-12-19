@@ -1,6 +1,8 @@
 package interfaces.services;
 
 import db.UserProfile;
+import messageSystem.Address;
+import messageSystem.MessageSystem;
 
 public interface DBService {
     boolean validateUser(String username, String password);
@@ -14,4 +16,8 @@ public interface DBService {
     int getAmountOfRegisteredUsers();
 
     void deleteUser(String username);
+
+    MessageSystem getMessageSystem();
+
+    Address getAddress();
 }

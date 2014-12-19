@@ -2,6 +2,7 @@ package servlets;
 
 import interfaces.services.AccountService;
 import interfaces.services.DBService;
+import messageSystem.MessageSystem;
 import org.junit.Before;
 import org.junit.Test;
 import services.AccountServiceImpl;
@@ -23,8 +24,9 @@ public class LogOutServletImplTest {
 
     @Before
     public void setUp() throws Exception {
-        DBService dbService = new DBServiceImpl();
-        accountService = new AccountServiceImpl(dbService);
+        MessageSystem messageSystem = new MessageSystem();
+        DBService dbService = new DBServiceImpl(messageSystem);
+        accountService = new AccountServiceImpl(dbService, messageSystem);
         servlet = new LogOutServletImpl(accountService);
 
         mockRequest = mock(HttpServletRequest.class);

@@ -4,19 +4,29 @@ import db.DBSettings;
 import db.TDBExecutor;
 import db.UserProfile;
 import db.UserProfilesDao;
+import interfaces.Abonent;
 import interfaces.services.DBService;
+import messageSystem.Address;
+import messageSystem.MessageSystem;
+import messageSystem.ThreadSettings;
 
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DBServiceImpl implements DBService {
+public class DBServiceImpl implements DBService, Abonent, Runnable {
     private final Connection connection;
+    private final MessageSystem messageSystem;
+    private final Address address = new Address();
 
-    public DBServiceImpl() {
+    public DBServiceImpl(MessageSystem messageSystem) {
         connection = getConnection();
         createTable();
+
+        this.messageSystem = messageSystem;
+        messageSystem.addService(this);
+        messageSystem.getAddressService().registerDBService(this);
     }
 
     private void createTable() {
@@ -90,5 +100,27 @@ public class DBServiceImpl implements DBService {
     public void deleteUser(String username) {
         UserProfilesDao userProfilesDao = new UserProfilesDao(connection);
         userProfilesDao.deleteUser(username);
+    }
+
+    @Override
+    public MessageSystem getMessageSystem() {
+        return messageSystem;
+    }
+
+    @Override
+    public Address getAddress() {
+        return address;
+    }
+
+    @Override
+    public void run() {
+        while (true){
+            messageSystem.execForAbonent(this);
+            try {
+                Thread.sleep(ThreadSettings.SERVICE_SLEEP_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

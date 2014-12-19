@@ -1,13 +1,19 @@
 package interfaces.services;
 
 import db.UserProfile;
+import messageSystem.Address;
+import utils.ProcessState;
 
 public interface AccountService {
+    void setSignUpState(String login, ProcessState signUpState);
+
+    ProcessState getSignUpState(String login);
+
     boolean validLoginAndPass(String login, String password);
 
     boolean signIn(String sessionId, String login);
 
-    boolean signUp(UserProfile user);
+    void signUp(UserProfile user);
 
     void logOut(String sessionId);
 
@@ -20,4 +26,6 @@ public interface AccountService {
     int getAmountOfUsersOnline();
 
     void deleteUser(UserProfile user);
+
+    Address getAddress();
 }

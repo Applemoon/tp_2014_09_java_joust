@@ -3,6 +3,7 @@ package services;
 import db.UserProfile;
 import interfaces.services.DBService;
 
+import messageSystem.MessageSystem;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,8 +35,9 @@ public class AccountServiceImplTest {
 
     @Before
     public void setUp() {
-        DBService dbService = new DBServiceImpl();
-        accountService = new AccountServiceImpl(dbService);
+        MessageSystem messageSystem = new MessageSystem();
+        DBService dbService = new DBServiceImpl(messageSystem);
+        accountService = new AccountServiceImpl(dbService, messageSystem);
         usersCount = 2;
     }
 
@@ -54,18 +56,15 @@ public class AccountServiceImplTest {
     public void testSignIn() {
         final int before = accountService.getAmountOfUsersOnline();
         UserProfile user = createUser();
-        final boolean expectedSuccessSignUpResultResult = accountService.signUp(user);
-        usersCount++;
-        assertTrue(expectedSuccessSignUpResultResult);
+        accountService.signUp(user);
 
-        final boolean expectedSuccessSignInResult = accountService.signIn("sessionId", user.getLogin());
-        assertTrue(expectedSuccessSignInResult);
+        final boolean expectedResult = accountService.signIn("sessionId", user.getLogin());
+        assertTrue(expectedResult);
 
         int amountOfUsersOnline = accountService.getAmountOfUsersOnline();
         assertEquals(before + 1, amountOfUsersOnline);
 
-        boolean expectedFailSignInResult = accountService.signIn("sessionId", user.getLogin());
-        assertFalse(expectedFailSignInResult);
+        accountService.signIn("sessionId", user.getLogin());
 
         amountOfUsersOnline = accountService.getAmountOfUsersOnline();
         assertEquals(before + 1, amountOfUsersOnline);
@@ -75,15 +74,16 @@ public class AccountServiceImplTest {
 
     @Test
     public void testSignUp() {
-        assertEquals(usersCount, accountService.getAmountOfRegisteredUsers()); //"admin" and "test" users already created
+        assertEquals(usersCount, accountService.getAmountOfRegisteredUsers());
 
         UserProfile user = createUser();
-        boolean expectedSuccessSignUpResult = accountService.signUp(user);
-        usersCount++;
-        assertTrue(expectedSuccessSignUpResult);
 
-        boolean expectedFailedSignUpResult = accountService.signUp(user);
-        assertFalse(expectedFailedSignUpResult);
+        accountService.signUp(user);
+        usersCount++;
+        assertEquals(usersCount, accountService.getAmountOfRegisteredUsers());
+
+        accountService.signUp(user);
+        assertEquals(usersCount, accountService.getAmountOfRegisteredUsers());
 
         deleteUser(user);
     }

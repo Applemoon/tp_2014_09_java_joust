@@ -1,6 +1,7 @@
 package services;
 
 import db.UserProfile;
+import messageSystem.MessageSystem;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,7 +12,8 @@ public class DBServiceImplTest {
 
     @Before
     public void setUp() throws Exception {
-        dbService = new DBServiceImpl();
+        MessageSystem messageSystem = new MessageSystem();
+        dbService = new DBServiceImpl(messageSystem);
     }
 
     @Test
