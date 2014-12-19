@@ -1,10 +1,11 @@
 package interfaces.services;
 
 import db.UserProfile;
+import interfaces.Abonent;
 import messageSystem.Address;
 import messageSystem.MessageSystem;
 
-public interface DBService {
+public interface DBService extends Abonent {
     boolean validateUser(String username, String password);
 
     void createUser(String username, String password);

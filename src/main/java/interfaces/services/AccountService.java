@@ -1,10 +1,11 @@
 package interfaces.services;
 
 import db.UserProfile;
+import interfaces.Abonent;
 import messageSystem.Address;
 import utils.ProcessState;
 
-public interface AccountService {
+public interface AccountService extends Abonent {
     void setSignUpState(String login, ProcessState signUpState);
 
     ProcessState getSignUpState(String login);

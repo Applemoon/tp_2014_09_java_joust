@@ -1,9 +1,6 @@
 package services;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import db.UserProfile;
-import interfaces.Abonent;
 import interfaces.services.AccountService;
 import interfaces.services.DBService;
 import messageSystem.*;
@@ -13,9 +10,11 @@ import utils.ProcessState;
 
 import java.util.HashMap;
 import java.util.Map;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 
 
-public class AccountServiceImpl implements AccountService, Abonent, Runnable {
+public class AccountServiceImpl implements AccountService, Runnable {
     private final BiMap<String, String> userSessions = HashBiMap.create();
     private final Map<String, ProcessState> waitingSignUpUsers = new HashMap<>();
     private final DBService dbService;

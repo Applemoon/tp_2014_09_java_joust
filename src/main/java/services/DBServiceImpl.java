@@ -4,7 +4,6 @@ import db.DBSettings;
 import db.TDBExecutor;
 import db.UserProfile;
 import db.UserProfilesDao;
-import interfaces.Abonent;
 import interfaces.services.DBService;
 import messageSystem.Address;
 import messageSystem.MessageSystem;
@@ -15,7 +14,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DBServiceImpl implements DBService, Abonent, Runnable {
+public class DBServiceImpl implements DBService, Runnable {
     private final Connection connection;
     private final MessageSystem messageSystem;
     private final Address address = new Address();

@@ -17,17 +17,17 @@ public class MessageSignUp extends MessageToDBService {
 
     @Override
     public void exec(DBService dbService) {
-        ProcessState singUpState = ProcessState.Error;
-        if (dbService.validateUser(login, password)) {
-            singUpState = ProcessState.DoneNotOK;
+        ProcessState signUpState = ProcessState.Error;
+        if (!dbService.validateUser(login, password)) {
+            dbService.createUser(login, password);
+            if (dbService.validateUser(login, password)) {
+                signUpState = ProcessState.DoneOK;
+            }
+        } else {
+            signUpState = ProcessState.DoneNotOK;
         }
 
-        dbService.createUser(login, password);
-        if (dbService.validateUser(login, password)) {
-            singUpState = ProcessState.DoneOK;
-        }
-
-        final Message back = new MessageSignedUp(getTo(), getFrom(), login, singUpState);
+        final Message back = new MessageSignedUp(getTo(), getFrom(), login, signUpState);
         dbService.getMessageSystem().sendMessage(back);
     }
 }
