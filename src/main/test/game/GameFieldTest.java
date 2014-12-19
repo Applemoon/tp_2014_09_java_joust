@@ -7,8 +7,8 @@ import services.ResourceFactory;
 import static org.junit.Assert.*;
 
 public class GameFieldTest {
-    GameField field;
-    int fieldSize;
+    private GameField field;
+    private int fieldSize;
 
     @Before
     public void setUp() throws Exception {

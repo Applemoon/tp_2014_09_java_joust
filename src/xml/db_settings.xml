@@ -2,7 +2,6 @@
     <type>jdbc:mysql</type>
     <host>localhost</host>
     <port>3306</port>
-    <!--<name>hzdb</name>-->
     <name>hzdb_test</name>
     <login>root</login>
     <password>1</password>

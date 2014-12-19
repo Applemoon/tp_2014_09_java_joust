@@ -5,7 +5,6 @@ import interfaces.services.DBService;
 import interfaces.services.WebSocketService;
 import messageSystem.MessageSystem;
 import services.ResourceFactory;
-import servlets.AdminPageServletImpl;
 import services.WebSocketServiceImpl;
 import services.DBServiceImpl;
 import interfaces.servlets.AdminPageServlet;

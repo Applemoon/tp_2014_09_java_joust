@@ -11,7 +11,7 @@ package game;
  * . . 0 0 0 -> 0
  */
 public class GameField {
-    private int fieldSize;
+    private final int fieldSize;
     private final int chainToWin;
     private final GameCell[][] cells;
     private enum Direction { VERTICAL, RIGHT_UP, LEFT_UP }

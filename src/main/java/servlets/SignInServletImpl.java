@@ -3,7 +3,6 @@ package servlets;
 import interfaces.services.AccountService;
 import interfaces.servlets.SignInServlet;
 import org.json.simple.JSONObject;
-import utils.ProcessState;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

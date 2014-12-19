@@ -29,7 +29,6 @@ public class AccountServiceImpl implements AccountService, Runnable {
 
         this.messageSystem = messageSystem;
         messageSystem.addService(this);
-        messageSystem.getAddressService().registerAccountService(this);
     }
 
     @Override

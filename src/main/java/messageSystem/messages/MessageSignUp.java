@@ -6,8 +6,8 @@ import messageSystem.Address;
 import utils.ProcessState;
 
 public class MessageSignUp extends MessageToDBService {
-    private String login;
-    private String password;
+    private final String login;
+    private final String password;
 
     public MessageSignUp(Address addressFrom, Address addressTo, UserProfile user) {
         super(addressFrom, addressTo);

@@ -6,8 +6,8 @@ import utils.ProcessState;
 
 
 public class MessageSignedUp extends MessageToAccountService {
-    private String login;
-    private ProcessState registerState;
+    private final String login;
+    private final ProcessState registerState;
 
     public MessageSignedUp(Address from, Address to, String login, ProcessState registerState) {
         super(from, to);
