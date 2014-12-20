@@ -5,7 +5,7 @@ import interfaces.Abonent;
 import messageSystem.Address;
 import utils.ProcessState;
 
-public interface AccountService extends Abonent {
+public interface AccountService extends Abonent, Runnable {
     void setSignUpState(String login, ProcessState signUpState);
 
     ProcessState getSignUpState(String login);

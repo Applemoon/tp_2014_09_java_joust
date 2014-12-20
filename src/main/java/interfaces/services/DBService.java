@@ -5,7 +5,7 @@ import interfaces.Abonent;
 import messageSystem.Address;
 import messageSystem.MessageSystem;
 
-public interface DBService extends Abonent {
+public interface DBService extends Abonent, Runnable {
     boolean validateUser(String username, String password);
 
     void createUser(String username, String password);

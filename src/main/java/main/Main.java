@@ -32,8 +32,13 @@ class Main {
 
         MessageSystem messageSystem = new MessageSystem();
         DBService dbService = new DBServiceImpl(messageSystem);
+        final Thread dbServiceThread = new Thread(dbService);
         AccountService accountService = new AccountServiceImpl(dbService, messageSystem);
+        final Thread accountServiceThread = new Thread(accountService);
         WebSocketService webSocketService = new WebSocketServiceImpl();
+
+        dbServiceThread.start();
+        accountServiceThread.start();
 
         Servlet signIn = new SignInServletImpl(accountService);
         Servlet signUp = new SignUpServletImpl(accountService);

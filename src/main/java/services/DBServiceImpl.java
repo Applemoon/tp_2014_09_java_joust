@@ -14,7 +14,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DBServiceImpl implements DBService, Runnable {
+public class DBServiceImpl implements DBService {
     private final Connection connection;
     private final MessageSystem messageSystem;
     private final Address address = new Address();

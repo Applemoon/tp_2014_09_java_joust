@@ -14,7 +14,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
 
-public class AccountServiceImpl implements AccountService, Runnable {
+public class AccountServiceImpl implements AccountService {
     private final BiMap<String, String> userSessions = HashBiMap.create();
     private final Map<String, ProcessState> waitingSignUpUsers = new HashMap<>();
     private final DBService dbService;
