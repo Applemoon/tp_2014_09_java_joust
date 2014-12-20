@@ -32,10 +32,10 @@ public class DBServiceImpl implements DBService {
         TDBExecutor executor = new TDBExecutor();
         final String queryCreateTable =
                 "create table if not exists users (" +
-                "username char(20)," +
-                "password char(64)," +
-                "games_played int default 0," +
-                "games_won int default 0," +
+                "username char(20) not null," +
+                "password char(64) not null," +
+                "games_played int default 0 not null," +
+                "games_won int default 0 not null," +
                 "primary key (username));";
         try {
             executor.execUpdate(connection, queryCreateTable);
