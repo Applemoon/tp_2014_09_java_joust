@@ -2,8 +2,8 @@
     <type>jdbc:mysql</type>
     <host>localhost</host>
     <port>3306</port>
-    <name>hzdb</name>
+    <name>g04_hzdb</name>
     <!--<name>hzdb_test</name> тестовая-->
-    <login>tpuser</login>
-    <password></password>
+    <login>g04_tpuser</login>
+    <password>g04_tpuser</password>
 </class>

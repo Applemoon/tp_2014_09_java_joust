@@ -66,17 +66,18 @@ public class GameField {
         while (true) {
             switch (direction) {
                 case VERTICAL:
-                    curY += step;
-                    break;
-                case RIGHT_UP:
                     curX += step;
                     break;
-                case LEFT_UP:
-                    curX -= step;
+                case RIGHT_UP:
                     curY += step;
+                    break;
+                case LEFT_UP:
+                    curX += step;
+                    curY -= step;
                     break;
             }
 
+            // проверки клетки
             if (!notValidCoord(curX, curY)) {
                 if ((firstPlayer &&
                         cells[curX][curY].getState() == GameCell.CellState.FILLED_FIRST) ||
@@ -87,21 +88,24 @@ public class GameField {
                     if (chain >= chainToWin) {
                         return ClickResult.WIN;
                     }
+
+                    continue;
                 }
-                continue;
             }
 
-            if (step == 1) {
-                step = -1;
-                curX = x;
-                curY = y;
-                continue;
+            // ряд закончился
+            if (step == -1) {
+                // смена направления (не на обратное)
+                direction = nextDirection(direction);
+                if (direction == Direction.VERTICAL) {
+                    break;
+                }
+                chain = 1;
             }
 
-            direction = nextDirection(direction);
-            if (direction == Direction.VERTICAL) {
-                break;
-            }
+            curX = x;
+            curY = y;
+            step *= -1;
         }
 
         return ClickResult.NO_RESULT;
