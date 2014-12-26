@@ -1,33 +1,44 @@
 package main;
 
-import admin.AdminPageServletImpl;
-import base.Port;
-import frontend.*;
-import interfaces.*;
-import base.WebSocketServiceImpl;
+import interfaces.services.AccountService;
+import interfaces.services.DBService;
+import interfaces.services.WebSocketService;
+import messageSystem.MessageSystem;
+import services.ResourceFactory;
+import services.WebSocketServiceImpl;
+import services.DBServiceImpl;
+import interfaces.servlets.AdminPageServlet;
+import interfaces.servlets.LogOutServlet;
+import interfaces.servlets.SignInServlet;
+import interfaces.servlets.SignUpServlet;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import utils.AccountServiceImpl;
-import utils.ReadXMLFileSAX;
+import servlets.*;
+import services.AccountServiceImpl;
 
 import javax.servlet.Servlet;
 
-/**
- * @author alexey
- */
 class Main {
     public static void main(String[] args) throws Exception {
-        Port portObj = (Port) ReadXMLFileSAX.readXML("port.xml");
-        final int port = portObj.getPort();
+        ResourceFactory.instance().setResource(ResourceFactory.serverSettingsFilename);
+        ServerSettings serverSettings = (ServerSettings) ResourceFactory.instance().getResource(ResourceFactory.serverSettingsFilename);
+        final int port = serverSettings.getPort();
         Server server = new Server(port);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
-        AccountService accountService = new AccountServiceImpl();
+        MessageSystem messageSystem = new MessageSystem();
+        DBService dbService = new DBServiceImpl(messageSystem);
+        final Thread dbServiceThread = new Thread(dbService);
+        AccountService accountService = new AccountServiceImpl(dbService, messageSystem);
+        final Thread accountServiceThread = new Thread(accountService);
         WebSocketService webSocketService = new WebSocketServiceImpl();
+
+        dbServiceThread.start();
+        accountServiceThread.start();
 
         Servlet signIn = new SignInServletImpl(accountService);
         Servlet signUp = new SignUpServletImpl(accountService);
@@ -54,3 +65,5 @@ class Main {
         server.start();
     }
 }
+
+// TODO selenium - тест первой страницы

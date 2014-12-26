@@ -9,7 +9,7 @@ Request (ajax):
 Response:
 200 : {}
 403 : {
-    "msg" : ["wrong_data"|"already_signed_up"]
+    "msg" : ["wrong_data"|"already_signed_up"|"unknown_error"]
 }
 
 

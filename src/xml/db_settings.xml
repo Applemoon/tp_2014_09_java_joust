@@ -1,0 +1,9 @@
+<class type='db.DBSettings'>
+    <type>jdbc:mysql</type>
+    <host>localhost</host>
+    <port>3306</port>
+    <name>g04_hzdb</name>
+    <!--<name>hzdb_test</name> тестовая-->
+    <login>g04_tpuser</login>
+    <password>g04_tpuser</password>
+</class>

@@ -1,6 +1,6 @@
 package game;
 
-import base.ClickResult;
+import services.ResourceFactory;
 
 public class GameSession {
     private final String first;
@@ -13,14 +13,16 @@ public class GameSession {
         first = user1;
         second = user2;
 
-        gameField = new GameField();
+        ResourceFactory.instance().setResource(ResourceFactory.gameSettingsFilename);
+        GameSettings serverSettings = (GameSettings) ResourceFactory.instance().getResource(ResourceFactory.gameSettingsFilename);
+        gameField = new GameField(serverSettings.getFieldSize(), serverSettings.getChainToWin());
 
         firstPlayerTurn = true;
         gameIsOver = false;
     }
 
     public ClickResult clickCell(String userName, int x, int y) {
-        if ((firstPlayerTurn  && userName.equals(first)) ||
+        if (( firstPlayerTurn && userName.equals(first)) ||
             (!firstPlayerTurn && userName.equals(second))) {
             final boolean firstUser = first.equals(userName);
             final ClickResult clickResult = gameField.clickCell(firstUser, x, y);

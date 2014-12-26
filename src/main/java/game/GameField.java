@@ -1,7 +1,5 @@
 package game;
 
-import base.ClickResult;
-
 /**
  * Вот такое игрвое поле:
  *       0
@@ -13,21 +11,39 @@ import base.ClickResult;
  * . . 0 0 0 -> 0
  */
 public class GameField {
-    private static final int fieldSize = 5; // Для ровного шестиугольного поля только нечетные значения
-    private static final int chainToWin = 3;
-    private final int smallEdge = (fieldSize - 3)/2;
-    private final int bigEdge = (3*fieldSize - 1)/2;
-    private final int cellsCount = fieldSize * fieldSize - fieldSize + 1;
+    private final int fieldSize;
+    private final int smallEdge;
+    private final int bigEdge;
+    private final int cellsCount;
     private int cellsFilled = 0;
-    private final GameCell[][] cells = new GameCell[fieldSize][fieldSize];
+    private final int chainToWin;
+    private final GameCell[][] cells;
     private enum Direction { VERTICAL, RIGHT_UP, LEFT_UP }
 
-    public GameField() {
-        for (int i = 0; i < fieldSize; i++) {
-            for (int j = 0; j < fieldSize; j++) {
+    public GameField(int fieldSize, int chainToWin) {
+        this.fieldSize = fieldSize;
+        this.chainToWin = chainToWin;
+
+        smallEdge = (fieldSize - 3)/2;
+        bigEdge = (3*fieldSize - 1)/2;
+        cellsCount = fieldSize * fieldSize - 2 * (triangleSum((fieldSize - 1) / 2));
+
+        cells = new GameCell[this.fieldSize][this.fieldSize];
+        for (int i = 0; i < this.fieldSize; i++) {
+            for (int j = 0; j < this.fieldSize; j++) {
                 cells[i][j] = new GameCell();
             }
         }
+    }
+
+    private int triangleSum(int n) {
+        int m = n - 1;
+        while (m != 0) {
+            n += m;
+            m--;
+        }
+
+        return n;
     }
 
     public int getFieldSize() {
@@ -82,39 +98,46 @@ public class GameField {
         while (true) {
             switch (direction) {
                 case VERTICAL:
-                    curY += step;
-                    break;
-                case RIGHT_UP:
                     curX += step;
                     break;
-                case LEFT_UP:
-                    curX -= step;
+                case RIGHT_UP:
                     curY += step;
+                    break;
+                case LEFT_UP:
+                    curX += step;
+                    curY -= step;
                     break;
             }
 
-            if (notValidCoord(curX, curY) &&
-                (firstPlayer && cells[curX][curY].getState() == GameCell.CellState.FILLED_FIRST) ||
-                (!firstPlayer && cells[curX][curY].getState() == GameCell.CellState.FILLED_SECOND)) {
-                chain++;
+            // проверки клетки
+            if (!notValidCoord(curX, curY)) {
+                if ((firstPlayer &&
+                        cells[curX][curY].getState() == GameCell.CellState.FILLED_FIRST) ||
+                    (!firstPlayer &&
+                            cells[curX][curY].getState() == GameCell.CellState.FILLED_SECOND)) {
+                    chain++;
 
-                if (chain >= chainToWin) {
-                    return ClickResult.WIN;
+                    if (chain >= chainToWin) {
+                        return ClickResult.WIN;
+                    }
+
+                    continue;
                 }
-                continue;
             }
 
-            if (step == 1) {
-                step = -1;
-                curX = x;
-                curY = y;
-                continue;
+            // ряд закончился
+            if (step == -1) {
+                // смена направления (не на обратное)
+                direction = nextDirection(direction);
+                if (direction == Direction.VERTICAL) {
+                    break;
+                }
+                chain = 1;
             }
 
-            direction = nextDirection(direction);
-            if (direction == Direction.VERTICAL) {
-                break;
-            }
+            curX = x;
+            curY = y;
+            step *= -1;
         }
 
         return ClickResult.NO_RESULT;
