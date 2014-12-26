@@ -10,5 +10,7 @@ public interface WebSocketService {
 
     void notifyCellFilled(String user, int x, int y, String nameFilled);
 
+    void notifyStandOff(String user);
+
     void removeSocket(GameWebSocket userSocket);
 }

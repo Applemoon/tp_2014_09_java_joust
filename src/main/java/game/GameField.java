@@ -3,8 +3,6 @@ package game;
 import base.ClickResult;
 
 /**
- * Created by applemoon on 30.10.14.
- *
  * Вот такое игрвое поле:
  *       0
  *      /
@@ -19,6 +17,8 @@ public class GameField {
     private static final int chainToWin = 3;
     private final int smallEdge = (fieldSize - 3)/2;
     private final int bigEdge = (3*fieldSize - 1)/2;
+    private final int cellsCount = fieldSize * fieldSize - fieldSize + 1;
+    private int cellsFilled = 0;
     private final GameCell[][] cells = new GameCell[fieldSize][fieldSize];
     private enum Direction { VERTICAL, RIGHT_UP, LEFT_UP }
 
@@ -45,8 +45,10 @@ public class GameField {
 
         if (firstPlayer) {
             cells[x][y].setState(GameCell.CellState.FILLED_FIRST);
+            cellsFilled++;
         } else {
             cells[x][y].setState(GameCell.CellState.FILLED_SECOND);
+            cellsFilled++;
         }
 
         final ClickResult checkWinResult = checkWin(x, y);
@@ -54,7 +56,19 @@ public class GameField {
             return ClickResult.WIN;
         }
 
+        final ClickResult checkStandOffResult = checkStandOff();
+        if (checkStandOffResult == ClickResult.STANDOFF) {
+            return ClickResult.STANDOFF;
+        }
+
         return ClickResult.FILLED;
+    }
+
+    private ClickResult checkStandOff() {
+        if (cellsFilled >= cellsCount) {
+            return ClickResult.STANDOFF;
+        }
+        return ClickResult.NO_RESULT;
     }
 
     private ClickResult checkWin(int x, int y) {

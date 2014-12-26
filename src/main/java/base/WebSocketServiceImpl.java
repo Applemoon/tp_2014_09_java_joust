@@ -38,6 +38,11 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     @Override
+    public void notifyStandOff(String user) {
+        userSockets.get(user).standOffMessage();
+    }
+
+    @Override
     public void removeSocket(GameWebSocket userSocket) {
         userSockets.remove(userSocket.getName());
     }

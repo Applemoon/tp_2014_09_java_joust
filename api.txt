@@ -60,4 +60,6 @@ From server:
     "type" : "win",
     "winner" : winner
 }
-
+{
+    "type" : "standoff"
+}

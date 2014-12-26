@@ -68,6 +68,12 @@ public class GameWebSocket {
         sendJSON(json);
     }
 
+    public void standOffMessage() {
+        JSONObject json = new JSONObject();
+        json.put("type", "standoff");
+        sendJSON(json);
+    }
+
     @OnWebSocketMessage
     @SuppressWarnings("unused")
     public void onMessage(String data) throws ParseException {
@@ -86,6 +92,9 @@ public class GameWebSocket {
                 fillCellMessage(x, y, name);
                 webSocketService.notifyCellFilled(enemyName, x, y, name);
                 return;
+            case STANDOFF:
+                standOffMessage();
+                webSocketService.notifyStandOff(enemyName);
             case NO_RESULT:
             default:
                 break;

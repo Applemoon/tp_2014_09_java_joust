@@ -27,7 +27,7 @@ public class GameSession {
             if (clickResult == ClickResult.FILLED) {
                 firstPlayerTurn = !firstPlayerTurn;
             }
-            else if (clickResult == ClickResult.WIN) {
+            else if (clickResult == ClickResult.WIN || clickResult == ClickResult.STANDOFF) {
                 gameIsOver = true;
             }
 
